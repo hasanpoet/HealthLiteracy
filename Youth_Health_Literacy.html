@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Youth Health Literacy App</title>
+<link href="https://fonts.googleapis.com/css2?family=Chewy&amp;family=Luckiest+Guy&amp;family=Pacifico&amp;family=Baloo+2&amp;display=swap" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body,
+html {
+  
+  async function getBotResponse() {
+    const input = document.getElementById("userInput").value.trim().toLowerCase();
+    const responseBox = document.getElementById("chatResponse");
+
+    if (!input) {
+      responseBox.innerHTML += "<p><strong>Byte:</strong> Please type a question!</p>";
+      return;
+    }
+
+    responseBox.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+    document.getElementById("userInput").value = '';
+
+    let reply = "Hmm, I’m not sure how to answer that. Try asking something else!";
+
+    if (input.includes("healthy snack")) {
+      reply = "A healthy snack could be fruit, nuts, or yogurt! 🥝🥜 Try to avoid too much sugar.";
+    } else if (input.includes("how much water") || input.includes("drink water")) {
+      reply = "Most kids and teens should drink about 6–8 cups of water a day 💧 Stay hydrated!";
+    } else if (input.includes("sleep") && input.includes("important")) {
+      reply = "Sleep helps your body and brain grow, recharge, and stay healthy! 😴 Aim for 8–10 hours.";
+    } else if (input.includes("what is puberty")) {
+      reply = "Puberty is when your body starts changing from a kid to a teen. It’s totally normal and different for everyone!";
+    } else if (input.includes("who can i talk to") || input.includes("help")) {
+      reply = "You can talk to a trusted adult, like a parent, teacher, or school nurse. You’re not alone 💛";
+    } else if (input.includes("mental health")) {
+      reply = "Mental health is about how you feel and think. Talking, journaling, and breathing exercises can help 🧠💬";
+    } else if (input.includes("canada food guide") || input.includes("nutrition guide")) {
+      reply = "You can explore the Canada Food Guide here: <a href='https://food-guide.canada.ca/en/' target='_blank'>food-guide.canada.ca</a> 🍎";
+    }
+
+    responseBox.innerHTML += `
+      <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 10px;">
+        <img src="byte_avatar.png" alt="Byte the Fox" style="width: 40px; height: 40px; border-radius: 8px;">
+        <p style="margin: 0;"><strong>Byte:</strong> ${reply}</p>
+      </div>
+    `;
+  }
+
+</script>
+html {
+      width: 100%;
+      height: 100%;
+      font-family: 'Baloo 2', cursive;
+      overflow: hidden;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100vh;
+      text-align: center;
+      padding: 1.5rem;
+      transition: opacity 1s ease;
+      opacity: 0;
+    }
+
+    .screen.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .title-screen {
+      background: linear-gradient(to right, #89f7fe, #66a6ff);
+      color: white;
+      font-family: 'Luckiest Guy', cursive;
+      font-size: 3rem;
+      letter-spacing: 2px;
+    }
+
+    .title-word {
+      opacity: 0;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .title-word.show {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .welcome-screen {
+      background: linear-gradient(to right, #38b6ff, #6a8eff);
+      color: white;
+    }
+
+    .elementary-screen {
+      background: linear-gradient(to right, #00b894, #55efc4);
+      color: white;
+    }
+
+    .nutrition-screen {
+      background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+    }
+
+    h1, h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #ffffff40, #ffffff20);
+      border: 2px solid white;
+      color: white;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+      backdrop-filter: blur(5px);
+    }
+
+    .btn:hover {
+      background: white;
+      color: #2d3436;
+      transform: scale(1.05);
+    }
+
+    .label-container {
+      background: white;
+      width: 340px;
+      border: 2px solid #333;
+      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: left;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .label-part {
+      font-size: 1rem;
+      margin: 6px 0;
+      line-height: 1.4;
+    }
+
+    .label-line {
+      border-top: 2px solid #000;
+      margin: 10px 0;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .large {
+      font-size: 1.1rem;
+    }
+
+    .label-part:hover::after {
+      content: attr(data-info);
+      display: block;
+      background: #e0f7fa;
+      padding: 6px;
+      margin-top: 4px;
+      border-left: 3px solid #00acc1;
+      font-size: 0.85rem;
+      color: #004d40;
+    }
+  
+h1, h2, h3 {
+  font-family: 'Baloo 2', cursive !important;
+}
+
+.title-word {
+  font-family: 'Luckiest Guy', cursive !important;
+}
+
+</style>
+</head>
+<body onload="startTitle()">
+<!-- Title Screen -->
+<div class="screen title-screen active" id="title">
+<div class="title-word" id="youth">Youth</div>
+<div class="title-word" id="health">Health</div>
+<div class="title-word" id="literacy">Literacy</div>
+</div>
+<!-- Welcome Page -->
+<div class="screen welcome-screen" id="welcome">
+<h1>Your space to learn, grow, and feel confident about your health.</h1>
+<div class="button-container">
+<button class="btn" onclick="goToScreen('elementary')">I'm in Elementary School</button>
+<button class="btn">I'm in High School</button>
+</div>
+</div>
+<!-- Elementary Page -->
+<div class="screen elementary-screen" id="elementary">
+<h2>Choose a Health Topic:</h2>
+<div class="button-container">
+<button class="btn" onclick="goToScreen('nutrition')">Healthy Eating</button>
+<button class="btn">Physical Health</button>
+<button class="btn">Mental Health</button>
+<button class="btn">Growth &amp; Body Awareness</button>
+</div>
+</div>
+<!-- Healthy Eating Module Menu Page -->
+<div class="screen nutrition-screen" id="nutrition">
+<h2 style="text-align: left;">Choose a Healthy Eating Module:</h2>
+<p style="font-family: 'Baloo 2', cursive; font-size: 0.90rem; max-width: 700px; margin-bottom: 1.5rem;text-align: left;">
+   Developing healthy eating habits sets the foundation for lifelong well-being. 🍎 Good nutrition gives you the energy ⚡ to stay focused 🧠, feel your best 💪, and perform at your best — in school, sports, and everyday life! 🌟"
+    </p>
+<div class="button-container">
+<button class="btn" onclick="goToScreen('label-decoder')">Nutrition Label Decoder</button>
+<button class="btn" onclick="goToScreen('which-healthier')">Tips for Eating Well </button>
+<button class="btn" onclick="goToScreen('mythbusters')">Common Myths Debunked</button>
+<button class="btn" onclick="goToScreen('recipe-ideas')">Healthy Recipes</button>
+</div>
+<div class="button-container" style="margin-top: 1.5rem;">
+<button class="btn" onclick="goToScreen('elementary')">← Back to Topics</button>
+</div>
+</div>
+<script>
+    function startTitle() {
+      setTimeout(() => document.getElementById('youth').classList.add('show'), 500);
+      setTimeout(() => document.getElementById('health').classList.add('show'), 1500);
+      setTimeout(() => document.getElementById('literacy').classList.add('show'), 2500);
+      setTimeout(() => {
+        document.getElementById('title').classList.remove('active');
+        document.getElementById('title').style.display = 'none';
+        goToScreen('welcome');
+      }, 4500);
+    }
+
+    function goToScreen(id) {
+      const screens = document.querySelectorAll('.screen');
+      screens.forEach(screen => {
+        screen.classList.remove('active');
+        screen.style.display = 'none';
+      });
+
+      const next = document.getElementById(id);
+      next.style.display = 'flex';
+      setTimeout(() => {
+        next.classList.add('active');
+      }, 10);
+    }
+  </script>
+<!-- Nutrition Hub Page -->
+<div class="screen nutrition-screen" id="nutrition-hub">
+<h2 style="text-align: left;">Nutrition Learning Hub</h2>
+<p style="font-size: 1.1rem; margin-bottom: 2rem;text-align: left;">Hover and click to explore each topic</p>
+<div class="bubble-container">
+<div class="bubble" onclick="goToScreen('label-decoder')">Nutrition Label Decoder</div>
+<div class="bubble" onclick="goToScreen('which-healthier')">Which is Better?</div>
+<button class="btn" onclick="goToScreen('mythbusters')">Common Myths Debunked</button>
+<div class="bubble" onclick="goToScreen('food-challenges')">Food Challenges</div>
+<div class="bubble" onclick="goToScreen('recipe-ideas')">Healthy Recipes</div>
+</div>
+</div>
+<!-- Nutrition Label Decoder Screen -->
+<div class="screen nutrition-screen" id="label-decoder">
+<div class="button-container" style="margin-bottom: 1.5rem;">
+<button class="btn" onclick="goToScreen('nutrition')">← Back to Healthy Eating</button>
+</div>
+<head>
+<style>
+      .label-container {
+        background: white;
+        width: 340px;
+        border: 2px solid black;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        text-align: left;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        color: black;
+      }
+
+      .nutrition-title {
+        font-size: 1.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        border-bottom: 10px solid black;
+        margin-bottom: 10px;
+        font-family: Arial Black, Arial, sans-serif;
+      }
+
+      .label-part {
+        font-size: 0.95rem;
+        margin: 6px 0;
+        line-height: 1.4;
+        font-family: Arial, sans-serif;
+      }
+
+      .label-line {
+        border-top: 2px solid black;
+        padding-top: 6px;
+        margin-top: 10px;
+      }
+
+      .large {
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
+
+      .bold {
+        font-weight: bold;
+      }
+
+      .indent {
+        padding-left: 1rem;
+      }
+
+      .footer-note {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        border-top: 1px solid black;
+        padding-top: 6px;
+        font-style: italic;
+      }
+
+      .label-part:hover::after {
+        content: attr(data-info);
+        display: block;
+        background: #ffffcc;
+        padding: 6px;
+        margin-top: 4px;
+        border-left: 3px solid #999;
+        font-size: 12px;
+        color: #333;
+      }
+    </style>
+</head>
+<body>
+<div class="button-container" style="margin-bottom: 1.5rem;">
+</div>
+<h2 style="text-align: left;">Nutrition Label Decoder</h2>
+<p style="font-family: 'Baloo 2', cursive; font-size: 0.90rem; max-width: 700px; margin-bottom: 1.5rem;text-align: left;">The nutrition label on the side of packaged foods breaks down what’s actually in your food. Knowing how to read it helps you make smarter choices and build healthy habits that last a lifetime.✨
+</p>
+<div class="label-container">
+<div class="nutrition-title">Nutrition Facts</div>
+<div class="label-part large" data-info="Written at the top of the nutrition facts table, tells you how much food the information is for.">
+    Serving Size 1 cup (228g)
+  </div>
+<div class="label-part label-line" data-info="Calories describe how much energy your body gets from eating and drinking a certain food. You need calories to keep your heart beating, your lungs breathing, and your brain thinking! When you eat more calories than the body uses, the extra energy is stored as fat.">
+    Amount per serving<br/><strong>Calories 250</strong>
+</div>
+<div class="label-part bold label-line" data-info="The % Daily Value tells you if a food product has certain nutrients per serving size – 5% DV or less is a little, 15% or more is a lot! It can also help you compare things like sugar or fat in different foods to see which item is better for you">
+<span style="float: right;">% Daily Value*</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part" data-info="Fat provides energy. Keep total fat intake moderate. Try to choose foods with less saturated and trans fat.">
+<span style="float: left;">Total Fat 12g</span>
+<span style="float: right;">18%</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part indent" data-info="Too much saturated fat can raise cholesterol. Try to limit foods high in saturated fat.">
+<span style="float: left;">Saturated Fat 3g</span>
+<span style="float: right;">15%</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part indent" data-info="Trans fats are harmful and should be avoided. Avoid completely when possible.">
+<span style="float: left;">Trans Fat 0g</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part" data-info="Cholesterol is found in animal products. Limit intake.">
+<span style="float: left;">Cholesterol 30mg</span>
+<span style="float: right;">10%</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part" data-info="Sodium is salt. Too much can affect blood pressure. Choose foods with less sodium to protect your heart.">
+<span style="float: left;">Sodium 470mg</span>
+<span style="float: right;">20%</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part" data-info="Carbohydrates are the body’s main energy source.">
+<span style="float: left;">Total Carbohydrate 31g</span>
+<span style="float: right;">10%</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part indent" data-info="Fiber helps with having regular bowel movements and is good for the heart. Choose foods with more fiber.">
+<span style="float: left;">Dietary Fiber 4g</span>
+<span style="float: right;">16%</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part indent" data-info="Too much sugar, especially added sugar, can be unhealthy. Choose foods with less added sugar.">
+<span style="float: left;">Total Sugars 10g</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part" data-info="Protein helps build and repair body tissues. Protein is good for growing bodies.">
+<span style="float: left;">Protein 5g</span>
+<div style="clear: both;"></div>
+</div>
+<div class="label-part footer-note" data-info="Calcium helps build strong bones and teeth; potassium helps your kidneys, heart, and muscles work properly; iron helps your blood carry oxygen throughout your body, which boosts your energy and keeps you feeling strong; Vitamin A can help improve your vision and Vitamin A and C helps your body fight off sickness and stay healthy ">
+    Also good to get more of: <strong>Calcium, Iron, Potassium, Fibre, Vitamin A, and Vitamin C</strong>
+</div>
+</div>
+<!-- Tips for Eating Well Section -->
+</body></div>
+<div class="screen nutrition-screen" id="which-healthier">
+<div class="button-container" style="margin-bottom: 1rem;">
+<button class="btn" onclick="goToScreen('nutrition')">← Back to Healthy Eating</button>
+</div>
+<h2 style="font-family: 'Luckiest Guy', cursive; font-size: 2.2rem; text-align: center;text-align: left;">Tips for Eating Well 🍽️</h2>
+<!-- Lined Tip Sheet with Stickers -->
+<div style="position: relative; display: inline-block;">
+<!-- Tip Sheet -->
+<div style="
+      background: repeating-linear-gradient(white, white 24px, #cce5ff 25px);
+      border: 2px solid #99c;
+      border-radius: 20px;
+      padding: 20px 30px;
+      max-width: 650px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      position: relative;
+      z-index: 1;
+      text-align: left;
+    ">
+<ul style="margin: 0; padding-left: 1.5em; list-style-position: outside;text-align: left;">
+<li>👨‍🍳 <strong>Cook together:</strong> Cooking as a family is a great way to learn, help out, and have fun!</li>
+<li>🍳 <strong>Start your day right:</strong> Eat a healthy breakfast to fuel your brain and body for the day.</li>
+<li>🍽️ <strong>Share meals:</strong> Eat with friends and family — it's more fun and can help you build better habits.</li>
+<li>🧠 <strong>Listen to your body:</strong> Eat when you're hungry and stop when you're full.</li>
+<li>🌈 <strong>Eat the rainbow:</strong> Fill your plate with colourful fruits and veggies to stay strong and healthy!</li>
+</ul>
+</div>
+</div>
+<!-- Common Myths Debunked - Interactive Cards -->
+<!-- Healthy Recipes Section with Box -->
+<!-- Nutrition Label Decoder Screen -->
+<!-- Chatbot UI with Matching Font -->
+<script>
+  function toggleChat() {
+    const chat = document.getElementById("chatbox");
+    chat.style.display = chat.style.display === "none" ? "block" : "none";
+  }
+
+  
+  async function getBotResponse() {
+  const input = document.getElementById("userInput").value.trim().toLowerCase();
+  const responseBox = document.getElementById("chatResponse");
+
+  if (!input) {
+    responseBox.innerHTML = "<p><strong>Byte:</strong> Please type a question!</p>" + responseBox.innerHTML;
+    return;
+  }
+
+  responseBox.innerHTML = `<p><strong>You:</strong> ${input}</p>` + responseBox.innerHTML;
+  document.getElementById("userInput").value = '';
+
+  let reply = "Hmm, I’m not sure how to answer that. Try asking something else!";
+
+  if (input.includes("healthy snack")) {
+    reply = `A healthy snack could be fruit, nuts, or yogurt! 🥝🥜 Try to avoid too much sugar.<br>
+      <em>Source: <a href="https://food-guide.canada.ca/en/" target="_blank">Canada’s Food Guide (Health Canada)</a></em>`;
+  } else if (input.includes("how much water") || input.includes("drink water")) {
+    reply = `Most kids and teens should drink about 6–8 cups of water a day 💧 Stay hydrated!<br>
+      <em>Source: <a href="https://www.healthlinkbc.ca/healthy-eating/drinking-enough-water" target="_blank">HealthLink BC</a></em>`;
+  } else if (input.includes("sleep") || input.includes("how much sleep")) {
+    reply = `Kids aged 5–13 should get 9–11 hours, and teens 14–17 should get 8–10 hours of sleep per night 😴<br>
+      <em>Source: <a href="https://csepguidelines.ca/guidelines/children-youth/" target="_blank">CSEP Guidelines (Canada)</a></em>`;
+  } else if (input.includes("what is puberty")) {
+    reply = `Puberty is when your body changes from a child to an adult. It’s normal and different for everyone.<br>
+      <em>Source: <a href="https://teachingsexualhealth.ca/teachers/puberty/" target="_blank">Teaching Sexual Health (Canada)</a></em>`;
+  } else if (input.includes("who can i talk to") || input.includes("help") || input.includes("i feel sad")) {
+    reply = `You can talk to a parent, teacher, counselor, or nurse. You can also contact Kids Help Phone 24/7 💛<br>
+      <em>Source: <a href="https://kidshelpphone.ca/" target="_blank">Kids Help Phone</a></em>`;
+  } else if (input.includes("mental health")) {
+    reply = `Mental health is about your thoughts, feelings, and how you cope. Support, talking, and breathing can help 🧠<br>
+      <em>Source: <a href="https://www.canada.ca/en/public-health/topics/mental-health.html" target="_blank">Public Health Agency of Canada</a></em>`;
+  } else if (input.includes("canada food guide") || input.includes("nutrition guide")) {
+    reply = `Canada’s Food Guide recommends eating a variety of fruits, vegetables, whole grains, and proteins 🍎<br>
+      <em>Source: <a href="https://food-guide.canada.ca/en/" target="_blank">Canada’s Food Guide</a></em>`;
+  } else if (
+    input.includes("exercise") ||
+    input.includes("physical activity") ||
+    input.includes("how much should i move") ||
+    input.includes("how much exercise") ||
+    input.includes("movement every day")
+  ) {
+    reply = `Children and youth (ages 5–17) should get at least 60 minutes of moderate to vigorous physical activity daily 🏃‍♀️💪<br>
+      <em>Source: <a href="https://csepguidelines.ca/children-and-youth-5-17/" target="_blank">CSEP 24-Hour Movement Guidelines (Canada)</a></em>`;
+  } else if (input.includes("screen time")) {
+    reply = `Limit recreational screen time to 2 hours or less per day. More play, less screen!<br>
+      <em>Source: <a href="https://csepguidelines.ca/guidelines/children-youth/" target="_blank">CSEP Guidelines (Canada)</a></em>`;
+  }
+
+  responseBox.innerHTML = `
+    <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 12px; padding: 10px; border-radius: 10px; background-color: #f1f8ff; border: 1px solid #90caf9;">
+      <img src="byte_avatar.png" alt="Byte the Fox" style="width: 40px; height: 40px; border-radius: 8px;">
+      <p style="margin: 0;"><strong>Byte:</strong> ${reply}</p>
+    </div>
+  ` + responseBox.innerHTML;
+}
+
+
+</script>
+<script>
+  function setSuggestion(question) {
+    document.getElementById("userInput").value = question;
+    getBotResponse();
+  }
+</script>
+</div><div class="screen nutrition-screen" id="recipe-ideas" style="position: relative; overflow: hidden;">
+<div class="button-container" style="margin-bottom: 1rem;">
+<button class="btn" onclick="goToScreen('nutrition')">← Back to Healthy Eating</button>
+</div>
+<h2 style="font-family: 'Luckiest Guy', cursive; font-size: 2.3rem; color: #2d3436; text-align: center;text-align: left;">
+      Healthy foods to include in your diet:
+    </h2>
+<div style="
+    background: #ffffffdd;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 750px;
+    margin: 0 auto;
+    font-family: 'Baloo 2', cursive;
+    position: relative;
+    z-index: 2;
+  ">
+<ul style="text-align: left; font-size: 1.1rem; line-height: 1.8; padding-left: 1.5em;text-align: left;">
+<li>🥦 <strong>Vegetables and fruits:</strong> Especially dark green like <strong>broccoli</strong> and orange ones like <strong>carrots</strong> and <strong>sweet potatoes</strong></li>
+<li>🍞 <strong>Whole grains:</strong> Whole wheat pasta, bread, oats, and brown rice</li>
+<li>🍳 <strong>Protein foods:</strong> Eggs, beans, nuts, low-fat dairy like milk and yogurt</li>
+<li>💧 <strong>Drinks:</strong> Water or milk instead of juice and soda
+        
+        </li>
+</ul>
+<p style="font-size: 1.2rem; font-style: italic; text-align: center;text-align: left;">
+      But it’s most important to eat foods that you enjoy — and remember to listen to your body and stop if you feel full! 😊
+    </p>
+</div>
+<!-- Floating Healthy Food Icons -->
+<img alt="Carrot" class="float-food" src="https://cdn-icons-png.flaticon.com/512/135/135620.png" style="top: 20px; left: 60px;"/>
+<img alt="Banana" class="float-food" src="https://cdn-icons-png.flaticon.com/512/135/135653.png" style="top: 350px; right: 40px;"/>
+<img alt="Apple" class="float-food" src="https://cdn-icons-png.flaticon.com/512/135/135695.png" style="bottom: 80px; left: 50px;"/>
+<img alt="Egg" class="float-food" src="https://cdn-icons-png.flaticon.com/512/135/135641.png" style="top: 160px; right: 100px;"/>
+<img alt="Nuts" class="float-food" src="https://cdn-icons-png.flaticon.com/512/590/590685.png" style="bottom: 250px; left: 140px;"/>
+<img alt="Blueberries" class="float-food" src="https://cdn-icons-png.flaticon.com/512/590/590677.png" style="top: 60px; left: 300px;"/>
+<img alt="Spinach" class="float-food" src="https://cdn-icons-png.flaticon.com/512/590/590692.png" style="bottom: 40px; right: 80px;"/>
+<img alt="Water Bottle" class="float-food" src="https://cdn-icons-png.flaticon.com/512/590/590703.png" style="top: 200px; left: 20px;"/>
+<img alt="Peas" class="float-food" src="https://cdn-icons-png.flaticon.com/512/135/135631.png" style="top: 20px; right: 200px;"/>
+<img alt="Tomato" class="float-food" src="https://cdn-icons-png.flaticon.com/512/135/135636.png" style="bottom: 20px; left: 250px;"/>
+<style>
+    .float-food {
+      width: 130px;
+      position: absolute;
+      animation: float 6s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0px) rotate(0deg); }
+      50%  { transform: translateY(-15px) rotate(5deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+  </style>
+<!-- Common Myths Debunked Section with Flip Cards -->
+</div>
+<div class="screen nutrition-screen" id="mythbusters">
+<div class="button-container" style="margin-bottom: 1rem; font-family: 'Baloo 2', cursive;">
+<button class="btn" onclick="goToScreen('nutrition')">← Back to Healthy Eating</button>
+</div>
+<h2 style="font-family: 'Luckiest Guy', cursive; font-size: 2.2rem;">🍽️ Common Myths Debunked</h2>
+<div class="myth-list" style="display: flex; flex-direction: column; gap: 20px; max-width: 800px; margin: 2rem auto; font-family: 'Baloo 2', cursive;">
+<div style="background: #ffeaa7; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); font-family: 'Baloo 2', cursive;; text-align: left;"><p style="margin-bottom: 0.5rem;"><strong>1️⃣ Myth:</strong> Eating too much of one food is bad for you</p><p><strong>Truth:</strong> There’s no single food or way of eating that makes your body healthy or unhealthy. Good health comes from balance: sleep 😴, movement 🏃‍♀️, variety in food 🍎, and self-care ❤️.</p></div>
+<div style="background: #fab1a0; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); font-family: 'Baloo 2', cursive;; text-align: left;"><p style="margin-bottom: 0.5rem;"><strong>2️⃣ Myth:</strong> Eating healthy is too expensive</p><p><strong>Truth:</strong> Eating healthy doesn’t have to break the bank! 🛒 Beans 🫘 and lentils are affordable, nutritious, and filling.</p></div>
+<div style="background: #81ecec; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); font-family: 'Baloo 2', cursive;; text-align: left;"><p style="margin-bottom: 0.5rem;"><strong>3️⃣ Myth:</strong> Canned and frozen fruits/veggies are less healthy</p><p><strong>Truth:</strong> Frozen and canned options are just as healthy as fresh ones. Look for “no salt added” or “packed in 100% juice”.</p></div>
+<div style="background: #74b9ff; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); font-family: 'Baloo 2', cursive;; text-align: left;"><p style="margin-bottom: 0.5rem;"><strong>4️⃣ Myth:</strong> You have to give up your favourite foods</p><p><strong>Truth:</strong> Not true! 🎉 You can still enjoy 🍪 treats. Healthy eating is about balance and variety.</p></div>
+</div>
+</div>
+<div id="chatbot-container" style="position: fixed; bottom: 20px; right: 20px; width: 300px; z-index: 999; font-family: 'Baloo 2', cursive;">
+<div onclick="toggleChat()" style="background-color: #6c5ce7; color: white; padding: 10px; border-top-left-radius: 12px; border-top-right-radius: 12px; cursor: pointer;">Chat with Byte the Fox 🦊</div>
+<div id="chatbox" style="display:none; background: white; border: 2px solid #6c5ce7; padding: 10px; max-height: 400px; overflow-y: auto; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+<p style="margin-bottom: 0.5rem;"><strong>You:</strong></p>
+<div id="suggested-questions" style="margin: 10px 0; font-family: 'Baloo 2', cursive;">
+<p><strong>Try asking Byte:</strong></p>
+<button onclick="setSuggestion('What is a healthy snack?')">🥦 What is a healthy snack?</button>
+<button onclick="setSuggestion('How much water should I drink daily?')">💧 How much water should I drink daily?</button>
+<button onclick="setSuggestion('Why is sleep important for teens?')">😴 Why is sleep important for teens?</button>
+<button onclick="setSuggestion('What is puberty and when does it happen?')">🧬 What is puberty and when does it happen?</button>
+<button onclick="setSuggestion('Where can I go if I need help or support?')">💛 Where can I go if I need help or support?</button>
+<button onclick="setSuggestion('What does mental health mean?')">🧠 What does mental health mean?</button>
+<button onclick="setSuggestion('What is the Canada Food Guide?')">🍎 What is the Canada Food Guide?</button>
+</div>
+<input id="userInput" placeholder="Type a question..." style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Baloo 2', cursive;" type="text"/>
+<button onclick="getBotResponse()" style="width: 100%; padding: 8px; background-color: #6c5ce7; color: white; border: none; border-radius: 8px; font-family: 'Baloo 2', cursive;">Send</button>
+<div id="chatResponse" style="margin-top: 10px; font-family: 'Baloo 2', cursive;">
+<div style="display: flex; align-items: flex-start; gap: 10px;">
+<img alt="Byte the Fox" src="byte_avatar.png" style="width: 50px; height: 50px; border-radius: 12px;"/>
+<p style="margin: 0;"><strong>Byte:</strong> Hey there! I’m Byte the Fox 🦊. Ask me anything about food, your body, or how to stay healthy!</p>
+</div>
+</div>
+</div>
+</div></body>
+</html>
