@@ -45,6 +45,12 @@
     .welcome-screen { background: linear-gradient(135deg, #38b6ff, #6a8eff); color: #fff; }
     .elementary-screen { background: linear-gradient(135deg, #00b894, #55efc4); color: #fff; }
     .nutrition-screen { background: linear-gradient(135deg, #e0c3fc, #8ec5fc); }
+    /* Dedicated theme for About screen (not a health topic) */
+.about-screen {
+  background: linear-gradient(135deg, #6b8cff, #7fd3ff);
+  color: #fff;
+}
+
 
     h1, h2, h3 { font-family: 'Baloo 2', cursive; margin: 0 0 .75rem; line-height: 1.2; }
     .title-word { font-family: 'Luckiest Guy', cursive; font-size: clamp(2.2rem, 8vw, 4rem); letter-spacing: .04em; opacity: 0; transform: scale(.96); transition: opacity 600ms ease, transform 600ms ease; }
@@ -81,6 +87,529 @@
     .label-line { border-top: 2px solid #000; margin-top: 10px; padding-top: 6px; }
     .indent { padding-left: 1rem; }
     .bold { font-weight: bold; } .large { font-size: 1.05rem; font-weight: 700; }
+    
+    /* Fun, static recipe/diet section */
+.diet-card{
+  background:#ffffffcc; border-radius:var(--radius);
+  padding:var(--pad); box-shadow:0 6px 20px rgba(0,0,0,.08);
+  border:1.5px solid #e5e7eb; position:relative; z-index:2;
+}
+.diet-title{
+  display:flex; align-items:center; gap:.5rem; flex-wrap:wrap;
+}
+.diet-badge{
+  margin-left:auto; background:#eef7ff; border:1px solid #90caf9;
+  padding:4px 8px; border-radius:999px; font-weight:800; font-size:.95rem;
+}
+.diet-list{
+  font-size:clamp(1rem,3vw,1.15rem); line-height:1.7; padding-left:1.1em; margin:.5rem 0;
+}
+.diet-callout{
+  margin:.75rem 0 0; background:#fcf8e8; border:1px dashed #f1c232;
+  color:#6b5500; padding:10px 12px; border-radius:12px; font-style:italic;
+}
+.diet-divider{
+  height:10px; margin:.75rem 0 .25rem; border-radius:8px; opacity:.35;
+  background:repeating-linear-gradient(45deg,#ffd6a5 0 10px,#caffbf 10px 20px,#9bf6ff 20px 30px,#bdb2ff 30px 40px);
+}
+
+/* keep decorative fruit soft */
+#recipe-ideas .float-food{ opacity:.75; filter:drop-shadow(0 6px 12px rgba(0,0,0,.12)); }
+
+/* ===== Falling Food Catch (recipes) ===== */
+#recipe-ideas .catch-wrap{
+  width:min(900px, 100%);
+  margin:14px auto 0;
+  position:relative;
+  border-radius:16px;
+  box-shadow:0 10px 24px rgba(0,0,0,.10);
+  overflow:hidden;
+  background: linear-gradient(180deg, #e0f2ff 0%, #ffffff 60%);
+  border:1.5px solid #e5e7eb;
+}
+#catchCanvas{ display:block; width:100%; height:auto; background:transparent; }
+
+.catch-hud{
+  position:absolute; inset:10px auto auto 10px; display:flex; gap:10px; z-index:2; pointer-events:none;
+}
+.catch-pill{
+  background:#ffffffcc; border:1px solid #cfe3ff; backdrop-filter: blur(6px);
+  padding:6px 10px; border-radius:999px; font-weight:800; font-size:.95rem;
+}
+
+.catch-legend{
+  position:absolute; inset:auto 10px 10px auto; z-index:2;
+  display:flex; gap:8px; align-items:center; background:#ffffffcc; border:1px solid #cfe3ff;
+  padding:6px 10px; border-radius:999px; font-size:.95rem;
+}
+
+.catch-overlay{
+  position:absolute; inset:0; display:grid; place-items:center; z-index:3;
+  background:linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.65));
+  text-align:center; padding:20px;
+}
+.catch-card{
+  background:#fff; border:1.5px solid #e5e7eb; border-radius:16px; padding:16px 18px; max-width:520px;
+  box-shadow:0 10px 24px rgba(0,0,0,.10);
+}
+.catch-btn{
+  margin-top:10px; appearance:none; border:2px solid #2d3436; background:#fff; color:#2d3436;
+  padding:10px 14px; border-radius:14px; font-weight:800; cursor:pointer; transition:transform .08s ease;
+}
+.catch-btn:active{ transform:scale(.98); }
+
+@media (max-width:560px){
+  .catch-legend{ font-size:.9rem; }
+}
+
+/* ===== Eating Well (scoped to #which-healthier) ===== */
+#which-healthier .eat-section{ margin:.25rem 0 1rem; }
+#which-healthelier .eat-subtitle,
+#which-healthier .eat-subtitle{ margin:.25rem 0 .35rem; font-size:1.05rem; }
+
+#which-healthier .eat-grid{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr));
+  gap:10px;
+}
+#which-healthier .eat-actions{ display:flex; gap:8px; margin-top:.5rem; }
+
+#which-healthier .eat-chip{
+  background:#ffffff; border:1.5px solid #e5e7eb; border-radius:16px; padding:10px 12px;
+  display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none; text-align:left;
+  transition: box-shadow .15s ease, transform .08s ease, border-color .15s ease, background .15s ease;
+}
+#which-healthier .eat-chip:hover{ box-shadow:0 8px 22px rgba(0,0,0,.08); transform:translateY(-1px); }
+#which-healthier .eat-chip .emoji{ font-size:1.25rem; }
+#which-healthier .eat-chip .done{
+  margin-left:auto; background:#dcfce7; color:#065f46; border:1px solid #86efac;
+  padding:2px 8px; border-radius:999px; font-weight:700; font-size:.85rem; display:none;
+}
+#which-healthier .eat-chip.active{ background:#f7fbff; border-color:#90caf9; }
+#which-healthier .eat-chip.completed{ background:#f6fffb; border-color:#86efac; }
+#which-healthier .eat-chip.completed .done{ display:inline-block; }
+
+#which-healthier .eat-divider{ border:none; border-top:1px dashed #e5e7eb; margin:12px 0; }
+
+#which-healthier .swap-grid{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:10px;
+}
+#which-healthier .swap-btn{
+  background:#fff; border:1.5px solid #e5e7eb; border-radius:14px; padding:10px 12px; cursor:pointer; text-align:center;
+  transition: box-shadow .15s ease, transform .08s ease, border-color .15s ease, background .15s ease;
+}
+#which-healthier .swap-btn:hover{ box-shadow:0 8px 22px rgba(0,0,0,.08); transform:translateY(-1px); }
+#which-healthier .swap-btn.swapped{ background:#f6fffb; border-color:#86efac; }
+#which-healthier .swap-hint{ margin:.4rem 0 0; font-size:.95rem; color:#374151; }
+
+#which-healthier .spinner{ display:grid; gap:8px; }
+#which-healthier .spinner-result{
+  background:#f1f8ff; border:1px solid #90caf9; border-radius:12px; padding:10px 12px; min-height:44px; display:grid; align-items:center;
+}
+#which-healthier .spinner-actions{ display:flex; gap:8px; }
+
+#which-healthier .rainbow{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+#which-healthier .color-dot{
+  width:28px; height:28px; border-radius:50%; border:2px solid #e5e7eb; background:#fff; cursor:pointer;
+  transition: transform .08s ease, box-shadow .15s ease, border-color .15s ease;
+}
+#which-healthier .color-dot[data-color="red"]{    background:linear-gradient(135deg,#fecaca,#ef4444); }
+#which-healthier .color-dot[data-color="orange"]{ background:linear-gradient(135deg,#fed7aa,#f97316); }
+#which-healthier .color-dot[data-color="yellow"]{ background:linear-gradient(135deg,#fef9c3,#eab308); }
+#which-healthier .color-dot[data-color="green"]{  background:linear-gradient(135deg,#bbf7d0,#22c55e); }
+#which-healthier .color-dot[data-color="blue"]{   background:linear-gradient(135deg,#ddd6fe,#7c3aed); }
+#which-healthier .color-dot[aria-pressed="true"]{ outline:3px solid #22c55e; transform:translateY(-1px); }
+#which-healthier .rainbow-note{ margin-top:.35rem; font-size:.95rem; color:#374151; }
+
+
+/* ===== PA: Intensity Guide (scoped to #pa-intensity-guide) ===== */
+#pa-intensity-guide .mv-wrap{ display:grid; gap:12px; }
+#pa-intensity-guide .mv-meter{ background:#fff; border:1.5px solid #e5e7eb; border-radius:14px; padding:14px; display:grid; gap:10px; }
+#pa-intensity-guide .mv-header{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+#pa-intensity-guide .mv-face{ font-size:1.8rem; line-height:1; width:40px; height:40px; display:grid; place-items:center; border-radius:12px; background:#f8fbff; border:1px solid #90caf9; }
+#pa-intensity-guide .mv-badge{ margin-left:auto; background:#eef7ff; border:1px solid #90caf9; padding:4px 8px; border-radius:999px; font-weight:800; font-size:.95rem; }
+#pa-intensity-guide .mv-range{ appearance:none; width:100%; height:12px; border-radius:999px; outline:0; background: linear-gradient(90deg,#93c5fd, #60a5fa 50%, #fbbf24 50%, #fb923c 70%, #ef4444 100%); }
+#pa-intensity-guide .mv-range::-webkit-slider-thumb{ appearance:none; width:28px; height:28px; border-radius:50%; background:#fff; border:2px solid #1f2937; box-shadow:0 2px 6px rgba(0,0,0,.15); cursor:pointer; margin-top:-8px; }
+#pa-intensity-guide .mv-range::-moz-range-thumb{ width:28px; height:28px; border-radius:50%; background:#fff; border:2px solid #1f2937; box-shadow:0 2px 6px rgba(0,0,0,.15); cursor:pointer; }
+#pa-intensity-guide .mv-scale{ display:flex; justify-content:space-between; font-size:.9rem; color:#374151; }
+#pa-intensity-guide .mv-desc{ background:#fcfdff; border:1px dashed #e5e7eb; border-radius:12px; padding:10px 12px; }
+#pa-intensity-guide .mv-examples{ display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
+#pa-intensity-guide .mv-card{ background:#ffffff; border:1.5px solid #e5e7eb; border-radius:14px; padding:10px 12px; }
+#pa-intensity-guide .mv-card h4{ margin:.15rem 0 .35rem; font-size:1rem; }
+#pa-intensity-guide .mv-card ul{ margin:0; padding-left:1.1em; line-height:1.6; }
+
+/* --- Healthy Recipes: kid-friendly visuals --- */
+#recipe-ideas .recipes-hero{
+  display:grid; gap:10px; align-items:center;
+  grid-template-columns: 64px 1fr auto; 
+  background:#fff; border:2px solid #90caf9; border-radius:18px;
+  padding:12px 14px; position:relative; overflow:hidden;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+#recipe-ideas .recipes-hero .emoji{
+  width:64px; height:64px; border-radius:14px; display:grid; place-items:center;
+  font-size:2rem; background:#eef7ff; border:1px solid #cfe3ff;
+}
+#recipe-ideas .sticker-badge{
+  background:#fff7cc; border:2px dashed #f2c94c; color:#6b5500;
+  padding:6px 10px; border-radius:999px; font-weight:900; font-size:.95rem;
+}
+
+#recipe-ideas .sticker-grid{
+  display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap:10px; margin:.6rem 0 0;
+}
+#recipe-ideas .sticker{
+  background:#ffffff; border:2px solid #e5e7eb; border-radius:18px;
+  padding:12px; position:relative; transition:transform .08s ease, box-shadow .15s ease, border-color .15s ease;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+#recipe-ideas .sticker:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.10); border-color:#cfe3ff; }
+#recipe-ideas .sticker .big-emoji{ font-size:1.6rem; margin-right:6px; }
+#recipe-ideas .sticker .title{ font-weight:900; margin:.15rem 0 .2rem; }
+#recipe-ideas .sticker p{ margin:0; color:#374151; line-height:1.6; }
+
+#recipe-ideas .soft-divider{
+  height:12px; border-radius:999px; opacity:.45; margin:.75rem 0 .25rem;
+  background: repeating-linear-gradient(45deg,#ffd6a5 0 12px,#caffbf 12px 24px,#9bf6ff 24px 36px,#bdb2ff 36px 48px);
+}
+
+/* Spinner & mini action row */
+#recipe-ideas .mini-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+#recipe-ideas .btn-pill{
+  background:#fff; border:2px solid #e5e7eb; border-radius:999px; padding:8px 12px; cursor:pointer;
+  transition:transform .08s ease, box-shadow .12s ease, border-color .15s ease;
+}
+#recipe-ideas .btn-pill:hover{ transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.08); border-color:#cfe3ff; }
+
+#recipe-ideas .spinner-card{
+  background:#fff; border:2px solid #e5e7eb; border-radius:18px; padding:12px;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+#recipe-ideas .spinner-result{
+  background:#f1f8ff; border:1.5px solid #90caf9; border-radius:12px; padding:10px 12px; min-height:44px; display:grid; align-items:center;
+}
+
+/* Fruit buttons (hooks up to existing JS) */
+#recipe-ideas .fruit-controls{ display:flex; gap:8px; flex-wrap:wrap; margin-top:.25rem; }
+#recipe-ideas .fruit-btn{
+  background:#fff; border:2px solid #e5e7eb; border-radius:14px; padding:8px 12px; cursor:pointer;
+}
+#recipe-ideas .fruit-btn:hover{ border-color:#cfe3ff; box-shadow:0 6px 18px rgba(0,0,0,.08); }
+
+/* Make game panel feel like an arcade card */
+#recipe-ideas .catch-wrap{
+  border-radius:18px;
+  border:2px solid #e5e7eb;
+  background: linear-gradient(180deg, #eaf6ff 0%, #ffffff 60%);
+}
+#recipe-ideas .catch-pill{ border-width:2px; }
+#recipe-ideas .catch-legend{
+  border-width:2px;
+}
+
+    /* ===== PA: Daily Target — Bull's-eye (scoped to #pa-daily-target) ===== */
+#pa-daily-target .bullseye-wrap{
+  display:grid; place-items:center; gap:.75rem;
+}
+#pa-daily-target .bullseye{
+  --pct: 0;            /* 0–100 (we’ll set with JS) */
+  --rings: #ffffff;
+  --ringLine: #e5e7eb;
+  --fill: #34d399;     /* green sweep */
+  width:min(76vw, 320px);
+  aspect-ratio:1;
+  border-radius:50%;
+  position:relative;
+  /* Rings */
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      var(--rings) 0 8%,
+      #f9fafb 8% 16%)
+  ;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08), inset 0 0 0 2px var(--ringLine);
+  cursor:pointer;
+  touch-action: manipulation;
+  transition: transform .08s ease;
+}
+#pa-daily-target .bullseye:active{ transform: scale(.99); }
+/* Progress sweep overlay */
+#pa-daily-target .bullseye::after{
+  content:"";
+  position:absolute; inset:0; border-radius:50%;
+  background:
+    conic-gradient(var(--fill) calc(var(--pct)*1%), transparent 0);
+  opacity:.35; /* let rings show through */
+}
+/* Center label */
+#pa-daily-target .bullseye .center{
+  position:absolute; inset:50% auto auto 50%;
+  transform:translate(-50%,-50%);
+  display:grid; place-items:center;
+  width:42%; aspect-ratio:1; border-radius:50%;
+  background:#fff; border:2px solid var(--ringLine);
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+#pa-daily-target .bullseye .center .min{
+  font-size:clamp(1.4rem, 6vw, 1.8rem); font-weight:800; line-height:1;
+}
+#pa-daily-target .bullseye .center .hint{
+  font-size:.85rem; color:#6b7280; margin-top:2px;
+}
+/* Tick dots for 15/30/45/60 */
+#pa-daily-target .tick{
+  position:absolute; width:22px; height:22px; border-radius:50%;
+  background:#fff; border:2px solid var(--ringLine); display:grid; place-items:center;
+  font-size:.8rem; font-weight:800; color:#4b5563;
+}
+#pa-daily-target .tick[data-t="15"]{ top:-10px; left:50%; transform:translate(-50%,0); }
+#pa-daily-target .tick[data-t="30"]{ top:50%; right:-10px; transform:translate(0,-50%); }
+#pa-daily-target .tick[data-t="45"]{ bottom:-10px; left:50%; transform:translate(-50%,0); }
+#pa-daily-target .tick[data-t="60"]{ top:50%; left:-10px; transform:translate(0,-50%); }
+
+/* Controls */
+#pa-daily-target .target-controls{
+  display:flex; gap:8px; flex-wrap:wrap; justify-content:center; align-items:center;
+}
+#pa-daily-target .target-btn{
+  background:#fff; border:1.5px solid #e5e7eb; border-radius:12px; padding:10px 12px; cursor:pointer;
+  transition:transform .08s ease, box-shadow .15s ease;
+}
+#pa-daily-target .target-btn:hover{ box-shadow:0 8px 22px rgba(0,0,0,.08); transform:translateY(-1px); }
+#pa-daily-target .pill{
+  background:#eef7ff; border:1px solid #90caf9; padding:4px 8px; border-radius:999px; font-size:.95rem;
+}
+
+/* Celebrate when 60+ */
+#pa-daily-target.goal .card{ position:relative; }
+#pa-daily-target.goal .card::after{
+  content:"🎯 You hit 60 minutes!"; position:absolute; top:10px; right:12px;
+  background:#dcfce7; border:1px solid #86efac; color:#065f46;
+  padding:4px 10px; border-radius:999px; font-weight:800; font-size:.9rem;
+  box-shadow:0 4px 14px rgba(0,0,0,.06);
+}
+/* === Shared Myths card styles (Exercise + Healthy Eating) === */
+.pa-myths-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;
+  margin-top:.75rem;
+}
+.pa-myth{
+  background:#fff;
+  border:1.5px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding:0;
+  overflow:hidden;
+  transition: box-shadow .15s ease, transform .08s ease;
+}
+.pa-myth:where(:hover,:focus-within){
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+  transform: translateY(-1px);
+}
+.pa-myth summary{
+  list-style:none;
+  cursor:pointer;
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+}
+.pa-myth summary::-webkit-details-marker{ display:none; }
+
+.pa-myth-tag{
+  background:#ffeaa7;
+  border:1px solid #f7d774;
+  color:#6b4e00;
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:.85rem;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.pa-caret{
+  margin-left:auto;
+  transform: rotate(0deg);
+  transition: transform .15s ease;
+  opacity:.7;
+}
+.pa-myth[open] .pa-caret{ transform: rotate(180deg); }
+
+.pa-truth{
+  border-top:1px dashed #e5e7eb;
+  background:#f8fbff;
+  padding:12px 14px;
+  line-height:1.6;
+}
+
+/* ===== PA Myths (scoped to #pa-safety-myths) ===== */
+#pa-safety-myths .pa-myths-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;
+  margin-top:.75rem;
+}
+#pa-safety-myths .pa-myth{
+  background:#fff;
+  border:1.5px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding:0;
+  overflow:hidden;
+  transition: box-shadow .15s ease, transform .08s ease;
+}
+#pa-safety-myths .pa-myth:where(:hover,:focus-within){
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+  transform: translateY(-1px);
+}
+#pa-safety-myths .pa-myth summary{
+  list-style:none;
+  cursor:pointer;
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+}
+#pa-safety-myths .pa-myth summary::-webkit-details-marker{ display:none; }
+
+#pa-safety-myths .pa-myth-tag{
+  background:#ffeaa7;
+  border:1px solid #f7d774;
+  color:#6b4e00;
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:.85rem;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+#pa-safety-myths .pa-caret{
+  margin-left:auto;
+  transform: rotate(0deg);
+  transition: transform .15s ease;
+  opacity:.7;
+}
+#pa-safety-myths .pa-myth[open] .pa-caret{ transform: rotate(180deg); }
+
+#pa-safety-myths .pa-truth{
+  border-top:1px dashed #e5e7eb;
+  background:#f8fbff;
+  padding:12px 14px;
+  line-height:1.6;
+}/* ===== Tips to Stay Active (scoped to #pa-tips) ===== */
+#pa-tips .tips-actions{
+  display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:.25rem 0 .5rem;
+}
+#pa-tips .pill{
+  background:#eef7ff; border:1px solid #90caf9; padding:4px 8px; border-radius:999px; font-size:.95rem;
+}
+#pa-tips .btn-mini{
+  background:#fff; border:1.5px solid #e5e7eb; border-radius:12px; padding:8px 10px; cursor:pointer;
+  transition:transform .08s ease, box-shadow .15s ease, border-color .15s ease;
+}
+#pa-tips .btn-mini:active{ transform:translateY(0); }
+#pa-tips .btn-mini:hover{ box-shadow:0 6px 18px rgba(0,0,0,.08); transform:translateY(-1px); }
+
+#pa-tips .tips-grid{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
+  gap:10px; margin-top:.25rem;
+}
+#pa-tips .tip-chip{
+  background:#ffffff; border:1.5px solid #e5e7eb; border-radius:16px; padding:10px 12px;
+  display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none;
+  transition: box-shadow .15s ease, transform .08s ease, border-color .15s ease, background .15s ease;
+}
+#pa-tips .tip-chip:hover{ box-shadow:0 8px 22px rgba(0,0,0,.08); transform:translateY(-1px); }
+#pa-tips .tip-chip .emoji{ font-size:1.3rem; }
+#pa-tips .tip-chip .text{ flex:1; text-align:left; }
+#pa-tips .tip-chip .done{
+  margin-left:auto; background:#dcfce7; color:#065f46; border:1px solid #86efac;
+  padding:2px 8px; border-radius:999px; font-weight:700; font-size:.85rem; display:none;
+}
+#pa-tips .tip-chip.active{
+  background:#f7fbff; border-color:#90caf9;
+}
+#pa-tips .tip-chip.completed{
+  background:#f6fffb; border-color:#86efac;
+}
+#pa-tips .tip-chip.completed .done{ display:inline-block; }
+
+@keyframes tip-pulse { 0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)} }
+#pa-tips .tip-chip.surprise{ animation: tip-pulse .5s ease 2; }
+
+/* ===== Safety First (scoped to #pa-strength-cardio) ===== */
+#pa-strength-cardio .pa-safe-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px,1fr));
+  gap:12px;
+  margin-top:.5rem;
+}
+#pa-strength-cardio .pa-safe-card{
+  position:relative;
+  display:block;
+  background:#fff;
+  border:1.5px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding:0;
+  overflow:hidden;
+  cursor:pointer;
+  transition: box-shadow .15s ease, transform .08s ease, border-color .15s ease;
+  user-select:none;
+}
+#pa-strength-cardio .pa-safe-card:hover{ box-shadow:0 8px 22px rgba(0,0,0,.08); transform: translateY(-1px); }
+#pa-strength-cardio .pa-safe-card:active{ transform: translateY(0); }
+
+#pa-strength-cardio .pa-safe-card input{
+  position:absolute; inset:0; width:100%; height:100%;
+  opacity:0; pointer-events:auto; cursor:pointer;
+}
+#pa-strength-cardio .pa-safe-face{
+  padding:14px;
+  display:grid; grid-template-columns:auto 1fr; align-items:center; gap:10px;
+}
+#pa-strength-cardio .pa-safe-emoji{ font-size:1.6rem; line-height:1; }
+#pa-strength-cardio .pa-safe-title{ font-weight:800; }
+#pa-strength-cardio .pa-safe-face p{ grid-column:1/-1; margin:.2rem 0 0; color:#374151; }
+
+#pa-strength-cardio .pa-safe-done{
+  position:absolute; inset:auto 10px 10px auto;
+  background:#dcfce7; color:#065f46; border:1px solid #86efac;
+  padding:4px 8px; border-radius:999px; font-weight:700; font-size:.9rem;
+  display:none;
+}
+#pa-strength-cardio .pa-safe-card input:checked ~ .pa-safe-done{ display:inline-block; animation: pa-pop .18s ease; }
+#pa-strength-cardio .pa-safe-card input:checked ~ .pa-safe-face{ background:#f8fbff; }
+#pa-strength-cardio .pa-safe-card input:checked{ outline:2px solid transparent; }
+#pa-strength-cardio .pa-safe-card input:checked ~ .pa-safe-face .pa-safe-emoji{ animation: pa-bounce .4s ease; }
+#pa-strength-cardio .pa-safe-card input:checked ~ .pa-safe-face .pa-safe-title{ color:#2563eb; }
+#pa-strength-cardio .pa-safe-card input:checked ~ .pa-safe-face p{ color:#1f2937; }
+#pa-strength-cardio .pa-safe-card input:checked ~ .pa-safe-done{ border-color:#86efac; }
+
+#pa-strength-cardio .pa-safe-hint{
+  margin-top:.75rem;
+  background:#fff7e6; border:1px solid #ffd89a; color:#7a4a00;
+  padding:10px 12px; border-radius:12px; text-align:center; display:none;
+}
+#pa-strength-cardio.all-done .pa-safe-hint{ display:block; animation: pa-pop .25s ease; }
+
+/* details */
+#pa-strength-cardio .pa-safe-why{
+  margin-top:.5rem; border:1px dashed #e5e7eb; border-radius: var(--radius);
+  background:#fcfdff; overflow:hidden;
+}
+#pa-strength-cardio .pa-safe-why > summary{
+  list-style:none; cursor:pointer; padding:12px 14px; font-weight:700;
+}
+#pa-strength-cardio .pa-safe-why > summary::-webkit-details-marker{ display:none; }
+
+/* fun animations */
+@keyframes pa-pop { from{ transform:scale(.96); opacity:.7;} to{ transform:scale(1); opacity:1;} }
+@keyframes pa-bounce { 0%{transform:translateY(0);} 40%{transform:translateY(-4px);} 100%{transform:translateY(0);} }
+
+/* optional confetti sprinkles */
+#pa-strength-cardio.all-done .card{ position:relative; }
+#pa-strength-cardio.all-done .card::after{
+  content:"✨ 🎈 🎉"; position:absolute; top:8px; right:12px; font-size:1.1rem; opacity:.9;
+}
 
     /* Hover tooltips replaced with tap-to-toggle info for mobile */
     .tap-note { display: none; font-size: .9rem; background: #fff7c2; border-left: 4px solid #b59b00; padding: 8px; border-radius: 8px; margin-top: 6px; }
@@ -90,6 +619,71 @@
     .float-food { width: clamp(64px, 16vw, 110px); position: absolute; animation: float 6s ease-in-out infinite; z-index: 1; }
     @keyframes float { 0% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(4deg); } 100% { transform: translateY(0) rotate(0); } }
     @media (max-width: 560px) { .float-food { opacity: .6; } }
+/* Extra floating fruits (programmatically added) */
+#recipe-ideas { position: relative; overflow: hidden; }
+#recipe-ideas .fruit-layer { position:absolute; inset:0; pointer-events:none; z-index:1; }
+.float-fruit{
+  position:absolute;
+  width: var(--size, 70px);
+  height: auto;
+  animation:
+    fruit-bob var(--durY, 6s) ease-in-out infinite alternate,
+    fruit-drift var(--durX, 18s) linear infinite;
+  opacity: .9;
+  will-change: transform;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,.12));
+}
+@keyframes fruit-bob{
+  from{ transform: translateY(0) rotate(0deg); }
+  to  { transform: translateY(var(--bob, -18px)) rotate(var(--rot, 6deg)); }
+}
+@keyframes fruit-drift{
+  from{ left: var(--x, 0%); }
+  to  { left: calc(var(--x, 0%) + var(--dx, 14%)); }
+}
+@media (max-width:560px){
+  .float-fruit{ opacity:.65; }
+}
+@media (prefers-reduced-motion: reduce){
+  .float-fruit{ animation: none; }
+}
+
+/* About the Team — horizontal role rows */
+#about-team .team-hero{
+  width:100%; max-width: 980px; margin:0 auto .75rem; padding:18px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg,#a5b4fc 0%, #60a5fa 50%, #34d399 100%);
+  color:#fff; box-shadow:0 10px 24px rgba(0,0,0,.12);
+}
+#about-team .logo-row{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin:.75rem 0 0;}
+#about-team .logo-pill{ background:#ffffffee; color:#111827; border:1px solid #e5e7eb;
+  border-radius:999px; padding:8px 12px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 12px rgba(0,0,0,.06);}
+#about-team .logo-pill img{ width:24px; height:24px; object-fit:contain; border-radius:4px; }
+
+/* NEW: list layout (rows) */
+#about-team .team-list{
+  display:grid; grid-template-columns: 1fr; gap:12px; margin-top:.75rem;
+}
+#about-team .team-card{
+  background:#fff; border:1.5px solid #e5e7eb; border-radius: var(--radius);
+  padding:14px;
+  display:grid; grid-template-columns: 64px 1fr; align-items:start; gap:12px;
+  transition: box-shadow .15s ease, transform .08s ease, border-color .15s ease;
+}
+#about-team .team-card:hover{ box-shadow:0 10px 24px rgba(0,0,0,.10); transform: translateY(-1px); border-color:#c7d2fe; }
+#about-team .avatar{
+  width:64px; height:64px; border-radius:12px; display:grid; place-items:center;
+  background:#eef2ff; border:1px solid #c7d2fe; font-size:1.5rem;
+}
+#about-team .card-title{ margin:.1rem 0 .1rem; font-weight:800; }
+#about-team .card-role{ margin:0 0 .35rem; font-size:.95rem; color:#2563eb; font-weight:800; }
+#about-team .card-body{ grid-column: 1/-1; margin:0; color:#374151; line-height:1.65; }
+
+@media (max-width:560px){
+  #about-team .team-card{ grid-template-columns: 52px 1fr; }
+  #about-team .avatar{ width:52px; height:52px; }
+}
+
 
     /* Chat widget */
     #chatbot-container { position: fixed; inset: auto var(--pad) var(--pad) auto; width: min(360px, 92vw); z-index: 999; font-family: 'Baloo 2', cursive; }
@@ -121,6 +715,9 @@
     <div class="button-container" role="group" aria-label="Choose school level">
       <button class="btn" onclick="goToScreen('elementary')" aria-label="I'm in Elementary School">I'm in Elementary School</button>
       <button class="btn" onclick="alert('High School content coming soon!')" aria-label="I'm in High School">I'm in High School</button>
+      <!-- ADD inside #welcome .button-container -->
+<button class="btn" onclick="goToScreen('about-team')">About the Team</button>
+
     </div>
   </section>
 
@@ -129,9 +726,11 @@
     <h2>Choose a Health Topic:</h2>
     <div class="button-container">
       <button class="btn" onclick="goToScreen('nutrition')">Healthy Eating</button>
-      <button class="btn" onclick="alert('Physical Health content coming soon!')">Physical Health</button>
+     <button class="btn" onclick="goToScreen('physical')">Physical Activity</button>
       <button class="btn" onclick="alert('Mental Health content coming soon!')">Mental Health</button>
       <button class="btn" onclick="alert('Growth & Body Awareness content coming soon!')">Growth & Body Awareness</button>
+  
+
     </div>
   </section>
 
@@ -143,7 +742,7 @@
       <div class="button-container" style="margin-top: .75rem;">
         <button class="btn alt" onclick="goToScreen('label-decoder')">Nutrition Label Decoder</button>
         <button class="btn alt" onclick="goToScreen('which-healthier')">Tips for Eating Well</button>
-        <button class="btn alt" onclick="goToScreen('mythbusters')">Common Myths Debunked</button>
+        <button class="btn alt" onclick="goToScreen('mythbusters')">Common Healthy Eating Myths</button>
         <button class="btn alt" onclick="goToScreen('recipe-ideas')">Healthy Recipes</button>
       </div>
       <div class="button-container" style="margin-top: 1rem;">
@@ -206,47 +805,173 @@
     </div>
   </section>
 
-  <!-- Tips for Eating Well -->
-  <section class="screen nutrition-screen" id="which-healthier" aria-label="Tips for Eating Well">
-    <div class="button-container" style="margin-bottom: .75rem;">
-      <button class="btn" onclick="goToScreen('nutrition')">← Back to Healthy Eating</button>
+<!-- Tips for Eating Well (interactive) -->
+<section class="screen nutrition-screen" id="which-healthier" aria-label="Tips for Eating Well">
+  <div class="button-container" style="margin-bottom:.75rem;">
+    <button class="btn" onclick="goToScreen('nutrition')">← Back to Healthy Eating</button>
+  </div>
+
+  <div class="card">
+    <h2 style="display:flex; align-items:center; gap:.5rem;">
+      Tips for Eating Well 🍽️
+      <span id="eatTipsProgress" class="pill" aria-live="polite" style="margin-left:auto;">0/5 today</span>
+    </h2>
+    <p style="margin:.25rem 0 .75rem;">Tap to check off small wins, try a smart swap, or spin for a snack idea!</p>
+
+    <!-- A) Quick Wins -->
+    <div class="eat-section">
+      <h3 class="eat-subtitle">Quick wins ✅</h3>
+      <div class="eat-grid" id="eatWinsGrid" role="group" aria-label="Quick wins">
+        <button class="eat-chip" type="button" aria-pressed="false"><span class="emoji">💧</span><span class="text">Drink water with your meal</span><span class="done">✔</span></button>
+        <button class="eat-chip" type="button" aria-pressed="false"><span class="emoji">🌈</span><span class="text">Add 1 veg or fruit to your plate</span><span class="done">✔</span></button>
+        <button class="eat-chip" type="button" aria-pressed="false"><span class="emoji">🍞</span><span class="text">Choose whole-grain when you can</span><span class="done">✔</span></button>
+        <button class="eat-chip" type="button" aria-pressed="false"><span class="emoji">🧠</span><span class="text">Pause mid-meal and check your fullness</span><span class="done">✔</span></button>
+        <button class="eat-chip" type="button" aria-pressed="false"><span class="emoji">🍓</span><span class="text">Pick fruit for dessert today</span><span class="done">✔</span></button>
+      </div>
+      <div class="eat-actions">
+        <button class="btn-mini" id="eatWinsShuffle" type="button">🔀 Shuffle</button>
+        <button class="btn-mini" id="eatWinsReset" type="button">♻️ Reset</button>
+      </div>
     </div>
 
-    <div class="card">
-      <h2>Tips for Eating Well 🍽️</h2>
-      <ul style="margin:0; padding-left: 1.1em; line-height: 1.7; font-size: clamp(1rem, 2.8vw, 1.15rem);">
-        <li>👨‍🍳 <strong>Cook together:</strong> Learn, help out, and have fun!</li>
-        <li>🍳 <strong>Start your day right:</strong> A balanced breakfast fuels your brain and body.</li>
-        <li>🍽️ <strong>Share meals:</strong> Eat with friends and family—it’s more fun and builds better habits.</li>
-        <li>🧠 <strong>Listen to your body:</strong> Eat when you're hungry and stop when you're full.</li>
-        <li>🌈 <strong>Eat the rainbow:</strong> Colorful fruits and veggies help you stay strong and healthy.</li>
-      </ul>
-    </div>
-  </section>
+    <hr class="eat-divider" aria-hidden="true"/>
 
-  <!-- Healthy Recipes -->
-  <section class="screen nutrition-screen" id="recipe-ideas" style="position: relative; overflow: hidden;" aria-label="Healthy Recipes">
-    <div class="button-container" style="margin-bottom: .75rem;">
-      <button class="btn" onclick="goToScreen('nutrition')">← Back to Healthy Eating</button>
+    <!-- B) Smart Swaps -->
+    <div class="eat-section">
+      <h3 class="eat-subtitle">Smart swaps 🔁</h3>
+      <div class="swap-grid" role="group" aria-label="Smart swaps">
+        <button class="swap-btn" type="button" data-a="Soda 🥤" data-b="Sparkling water + splash of juice 💧">Soda 🥤</button>
+        <button class="swap-btn" type="button" data-a="White bread 🍞" data-b="Whole-grain bread 🌾">White bread 🍞</button>
+        <button class="swap-btn" type="button" data-a="Chips 🍟" data-b="Popcorn or nuts 🍿🥜">Chips 🍟</button>
+        <button class="swap-btn" type="button" data-a="Candy 🍬" data-b="Fruit + yogurt 🍓🥣">Candy 🍬</button>
+      </div>
+      <p class="swap-hint" id="swapHint" aria-live="polite">Tap a card to see the swap!</p>
     </div>
 
-    <div class="card" style="position:relative; z-index:2;">
-      <h2 style="color:#2d3436">Healthy foods to include in your diet:</h2>
-      <ul style="font-size: clamp(1rem, 3vw, 1.15rem); line-height: 1.7; padding-left: 1.1em;">
-        <li>🥦 <strong>Vegetables and fruits:</strong> Dark green (e.g., <strong>broccoli</strong>) and orange (e.g., <strong>carrots</strong>, <strong>sweet potatoes</strong>).</li>
-        <li>🍞 <strong>Whole grains:</strong> Whole wheat pasta, bread, oats, brown rice.</li>
-        <li>🍳 <strong>Protein foods:</strong> Eggs, beans, nuts, and low-fat dairy like milk and yogurt.</li>
-        <li>💧 <strong>Drinks:</strong> Water or milk instead of juice and soda.</li>
-      </ul>
-      <p style="font-style: italic;">Most important: enjoy your food, and stop when you feel full. 😊</p>
+    <hr class="eat-divider" aria-hidden="true"/>
+
+    <!-- C) Snack Spinner -->
+    <div class="eat-section">
+      <h3 class="eat-subtitle">Snack spinner 🎰</h3>
+      <div class="spinner">
+        <div id="snackResult" class="spinner-result" aria-live="polite">Press spin for a tasty idea!</div>
+        <div class="spinner-actions">
+          <button class="btn-mini" id="snackSpin" type="button">🎲 Spin</button>
+          <button class="btn-mini" id="snackAnother" type="button">➕ Another</button>
+        </div>
+      </div>
     </div>
 
-    <!-- Floating icons -->
-    <img class="float-food" loading="lazy" alt="Carrot" src="https://cdn-icons-png.flaticon.com/512/135/135620.png" style="top: 20px; left: 10%" />
-    <img class="float-food" loading="lazy" alt="Banana" src="https://cdn-icons-png.flaticon.com/512/135/135653.png" style="top: 350px; right: 8%" />
-    <img class="float-food" loading="lazy" alt="Apple" src="https://cdn-icons-png.flaticon.com/512/135/135695.png" style="bottom: 80px; left: 14%" />
-    <img class="float-food" loading="lazy" alt="Egg" src="https://cdn-icons-png.flaticon.com/512/135/135641.png" style="top: 160px; right: 18%" />
-  </section>
+    <hr class="eat-divider" aria-hidden="true"/>
+
+    <!-- D) Rainbow Tracker -->
+    <div class="eat-section">
+      <h3 class="eat-subtitle">Rainbow tracker 🌈</h3>
+      <p style="margin:.25rem 0;">How many colours did you eat today?</p>
+      <div class="rainbow" role="group" aria-label="Fruit and veg colours">
+        <button class="color-dot" type="button" data-color="red"     aria-pressed="false" aria-label="Red"></button>
+        <button class="color-dot" type="button" data-color="orange"  aria-pressed="false" aria-label="Orange"></button>
+        <button class="color-dot" type="button" data-color="yellow"  aria-pressed="false" aria-label="Yellow"></button>
+        <button class="color-dot" type="button" data-color="green"   aria-pressed="false" aria-label="Green"></button>
+        <button class="color-dot" type="button" data-color="blue"    aria-pressed="false" aria-label="Blue/Purple"></button>
+      </div>
+      <div class="rainbow-note" id="rainbowNote" aria-live="polite">0/5 colours</div>
+    </div>
+  </div>
+</section>
+<!-- Healthy Recipes (kid-friendly visual refresh) -->
+<section class="screen nutrition-screen" id="recipe-ideas" aria-label="Healthy Recipes" style="position:relative; overflow:hidden;">
+  <div class="button-container" style="margin-bottom:.75rem;">
+    <button class="btn" onclick="goToScreen('nutrition')">← Back to Healthy Eating</button>
+  </div>
+
+  <!-- fun header -->
+  <div class="recipes-hero">
+    <div class="emoji" aria-hidden="true">🍽️</div>
+    <div>
+      <h2 style="margin:.1rem 0 .2rem;">Healthy foods to include in your diet:</h2>
+      <div class="sticker-badge">Simple &amp; tasty</div>
+    </div>
+    <div class="fruit-controls" style="justify-self:end;">
+      <button id="fruitPartyToggle" class="fruit-btn" type="button">🍉 Fruit Party</button>
+      <button id="fruitClear" class="fruit-btn" type="button">🧹 Clear</button>
+    </div>
+  </div>
+
+  <div class="soft-divider" aria-hidden="true"></div>
+
+  <!-- turn the list into easy-to-scan stickers (same text) -->
+  <div class="sticker-grid" role="list">
+    <article class="sticker" role="listitem">
+      <div class="title"><span class="big-emoji" aria-hidden="true">🥦</span><strong>Vegetables and fruits</strong></div>
+      <p>especially those that are dark green like <strong>broccoli</strong> and orange like <strong>carrots</strong> and <strong>sweet potatoes</strong></p>
+    </article>
+
+    <article class="sticker" role="listitem">
+      <div class="title"><span class="big-emoji" aria-hidden="true">🍞</span><strong>Whole grains</strong></div>
+      <p><strong>whole wheat pasta</strong>, <strong>bread</strong>, <strong>oats</strong>, and <strong>brown rice</strong></p>
+    </article>
+
+    <article class="sticker" role="listitem">
+      <div class="title"><span class="big-emoji" aria-hidden="true">🍳</span><strong>Protein foods</strong></div>
+      <p><strong>eggs</strong>, <strong>fish</strong>, <strong>beans</strong>, <strong>nuts</strong>, <strong>low fat dairy</strong> like <strong>milk</strong> and <strong>yogurt</strong></p>
+    </article>
+
+    <article class="sticker" role="listitem">
+      <div class="title"><span class="big-emoji" aria-hidden="true">💧</span><strong>Drinks</strong></div>
+      <p><strong>water or milk</strong> instead of <strong>juice</strong> and <strong>soda</strong></p>
+    </article>
+  </div>
+
+  <p class="diet-callout" style="margin-top:.6rem;">
+    But it’s most important to eat foods that you enjoy, and remember to listen to your body and stop if you feel full!
+  </p>
+
+  <!-- Layer for floating fruit images (used by Fruit Party buttons) -->
+  <div id="fruitLayer" class="fruit-layer" aria-hidden="true"></div>
+
+  <!-- Recipe Spinner (keeps your text; new card style) -->
+  <div class="spinner-card" style="margin-top:.75rem;">
+    <h3 style="margin:.2rem 0 .5rem;">🎰 Recipe Spinner</h3>
+    <div id="recipeSpinResult" class="spinner-result" aria-live="polite">
+      Press Spin for a quick, healthy meal idea!
+    </div>
+    <div class="mini-actions" style="margin-top:.5rem;">
+      <button class="btn-pill" id="recipeSpinBtn" type="button">🎲 Spin</button>
+      <button class="btn-pill" id="recipeAnotherBtn" type="button">➕ Another</button>
+    </div>
+  </div>
+
+  <!-- Falling Food Catch game (kept; just inherits new styling) -->
+  <div class="catch-wrap" role="region" aria-label="Falling Food Catch game" style="margin-top:.75rem;">
+    <div class="catch-hud">
+      <div id="catchScore" class="catch-pill" aria-live="polite">Score: 0</div>
+      <div id="catchTime" class="catch-pill" aria-live="polite">Time: 30s</div>
+    </div>
+    <div class="catch-legend" aria-hidden="true">✅ 🥦🍎🍞🥛  &nbsp;|&nbsp;  ❌ 🧃🍩</div>
+
+    <canvas id="catchCanvas" width="900" height="520"></canvas>
+
+    <div id="catchOverlay" class="catch-overlay">
+      <div class="catch-card">
+        <h3 style="margin:.2rem 0 .4rem;">🍎 Falling Food Catch</h3>
+        <p style="margin:0 0 .5rem;">Move the basket to catch <strong>healthy foods</strong>. Avoid the junk!</p>
+        <p style="margin:0 0 .5rem;"><strong>Controls:</strong> ⬅️ ➡️ or drag/tap.</p>
+        <button id="catchStartBtn" class="catch-btn" type="button" aria-label="Start game">▶️ Play</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- soft, decorative fruit (kept) -->
+  <img class="float-food" loading="lazy" alt="Carrot" src="https://cdn-icons-png.flaticon.com/512/135/135620.png" style="top: 18px; left: 6%" />
+  <img class="float-food" loading="lazy" alt="Banana" src="https://cdn-icons-png.flaticon.com/512/2909/2909808.png" style="top: 120px; right: 5%" />
+  <img class="float-food" loading="lazy" alt="Apple" src="https://cdn-icons-png.flaticon.com/512/135/135695.png" style="bottom: 60px; left: 10%" />
+    <img class="float-food" loading="lazy" alt="Apple" src="https://cdn-icons-png.flaticon.com/512/415/415733.png" style="bottom: 60px; right: 10%" />
+  <img class="float-food" loading="lazy" alt="Apple" src="https://cdn-icons-png.flaticon.com/512/590/590685.png" style="bottom: 60px; right: 20%" />
+  <img class="float-food" loading="lazy" alt="Carrot" src="https://cdn-icons-png.flaticon.com/512/765/765560.png" style="top: 18px; left: 10%" />
+    
+</section>
+
 
   <!-- Common Myths Debunked -->
   <section class="screen nutrition-screen" id="mythbusters" aria-label="Common Myths">
@@ -254,14 +979,401 @@
       <button class="btn" onclick="goToScreen('nutrition')">← Back to Healthy Eating</button>
     </div>
 
-    <div class="card" style="display:flex; flex-direction: column; gap: 12px;">
-      <h2>🍽️ Common Myths Debunked</h2>
-      <div style="background:#ffeaa7; border-radius: var(--radius); padding: 12px;"> <p><strong>1️⃣ Myth:</strong> Eating too much of one food is bad for you</p><p><strong>Truth:</strong> Health comes from balance: sleep 😴, movement 🏃‍♀️, variety 🍎, and self‑care ❤️.</p></div>
-      <div style="background:#fab1a0; border-radius: var(--radius); padding: 12px;"> <p><strong>2️⃣ Myth:</strong> Eating healthy is too expensive</p><p><strong>Truth:</strong> It doesn’t have to be. Beans and lentils are affordable, nutritious, and filling.</p></div>
-      <div style="background:#81ecec; border-radius: var(--radius); padding: 12px;"> <p><strong>3️⃣ Myth:</strong> Canned/frozen fruits & veggies are less healthy</p><p><strong>Truth:</strong> They can be just as nutritious. Look for “no salt added” or “packed in 100% juice”.</p></div>
-      <div style="background:#74b9ff; border-radius: var(--radius); padding: 12px;"> <p><strong>4️⃣ Myth:</strong> You must give up favourite foods</p><p><strong>Truth:</strong> Not true! 🎉 Enjoy treats in balance and variety.</p></div>
+  <div class="card">
+    <h2>Common Healthy Eating Myths 🤔</h2>
+    <p style="margin-top:.25rem">Tap a card to reveal the truth.</p>
+
+    <!-- Myths grid -->
+    <div class="pa-myths-grid" role="list">
+      <details class="pa-myth" role="listitem">
+        <summary>
+          <span class="pa-myth-tag">Myth:</span>
+         Eating too much of one food is bad for you
+          <span class="pa-caret" aria-hidden="true">▾</span>
+        </summary>
+        <div class="pa-truth">
+          <strong>Truth:</strong> Health comes from balance: sleep 😴, movement 🏃‍♀️, variety 🍎, and self‑care ❤️.
+        </div>
+      </details>
+
+      <details class="pa-myth" role="listitem">
+        <summary>
+          <span class="pa-myth-tag">Myth:</span>
+          Eating healthy is too expensive
+          <span class="pa-caret" aria-hidden="true">▾</span>
+        </summary>
+        <div class="pa-truth">
+          <strong>Truth:</strong> It doesn’t have to be. Beans and lentils are affordable, nutritious, and filling.
+        </div>
+      </details>
+      
+         <details class="pa-myth" role="listitem">
+        <summary>
+          <span class="pa-myth-tag">Myth:</span>
+          Canned/frozen fruits & veggies are less healthy
+          <span class="pa-caret" aria-hidden="true">▾</span>
+        </summary>
+        <div class="pa-truth">
+          <strong>Truth:</strong> They can be just as nutritious. Look for “no salt added” or “packed in 100% juice”.
+        </div>
+      </details>
+      
+         <details class="pa-myth" role="listitem">
+        <summary>
+          <span class="pa-myth-tag">Myth:</span>
+          You must give up favourite foods
+          <span class="pa-caret" aria-hidden="true">▾</span>
+        </summary>
+        <div class="pa-truth">
+          <strong>Truth:</strong> Not true! 🎉 Enjoy treats in balance and variety.
+        </div>
+      </details>
     </div>
+  </div>
+
   </section>
+
+<!-- Physical Activity Module Menu (matches Healthy Eating menu style) -->
+<section class="screen nutrition-screen" id="physical" aria-label="Physical Activity modules">
+  <div class="card" style="background: #ffffffcc;">
+    <h2>Choose a Physical Activity Module:</h2>
+    <p>Moving your body every day boosts your mood, focus, strength, and sleep. 🏃‍♀️🧠💪 Youth aged <strong>5–17</strong> should aim for <strong>60+ minutes</strong> of moderate-to-vigorous activity daily. 🌟</p>
+
+    <div class="button-container" style="margin-top: .75rem;">
+      <button class="btn alt" onclick="goToScreen('pa-daily-target')">Daily Target</button>
+      <button class="btn alt" onclick="goToScreen('pa-intensity-guide')">Moderate vs Vigorous</button>
+      <button class="btn alt" onclick="goToScreen('pa-strength-cardio')">Safety First!</button>
+      <button class="btn alt" onclick="goToScreen('pa-tips')">Tips to Stay Active</button>
+    </div>
+    <div class="button-container" style="margin-top:.5rem;">
+      <button class="btn alt" onclick="goToScreen('pa-safety-myths')">Common Healthy Eating Myths</button>
+      <button class="btn" onclick="goToScreen('elementary')">← Back to Topics</button>
+    </div>
+  </div>
+</section>
+
+<!-- PA: Daily Target (Bull's-eye) -->
+<section class="screen nutrition-screen" id="pa-daily-target" aria-label="Physical Activity — Daily Target">
+  <div class="button-container" style="margin-bottom:.75rem;">
+    <button class="btn" onclick="goToScreen('physical')">← Back to Physical Activity</button>
+  </div>
+
+  <div class="card">
+    <h2 style="display:flex; align-items:center; gap:.5rem;">
+      Daily Target 🎯
+      <span id="targetStatus" class="pill" aria-live="polite" style="margin-left:auto;">0/60 min</span>
+    </h2>
+    <p style="margin:.25rem 0 .5rem;">Tap the target (or use +5/−5) to fill it—aim for 60 minutes!</p>
+
+    <div class="bullseye-wrap">
+      <div id="bullseye" class="bullseye" role="button" aria-label="Add 5 minutes" tabindex="0">
+        <!-- ticks -->
+        <div class="tick" data-t="15">15</div>
+        <div class="tick" data-t="30">30</div>
+        <div class="tick" data-t="45">45</div>
+        <div class="tick" data-t="60">60</div>
+        <!-- center -->
+        <div class="center" aria-hidden="true">
+          <div class="min" id="targetMinutes">0</div>
+          <div class="hint">min</div>
+        </div>
+      </div>
+
+      <div class="target-controls">
+        <button class="target-btn" id="minus5" type="button">➖ −5</button>
+        <button class="target-btn" id="plus5" type="button">➕ +5</button>
+        <button class="target-btn" id="resetTarget" type="button">♻️ Reset</button>
+      </div>
+    </div>
+
+    <ul style="margin:.75rem 0 0; padding-left:1.1em; line-height:1.7;">
+      <li>60+ minutes a day keeps you strong, focused, and energized.</li>
+      <li>Mix play, sports, dance—anything that gets your heart pumping!</li>
+      <li>Short bursts add up. 5 minutes here + 10 there = progress!</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PA: Intensity Guide (FUN & interactive) -->
+<section class="screen nutrition-screen" id="pa-intensity-guide" aria-label="Physical Activity — Intensity Guide">
+  <div class="button-container" style="margin-bottom:.75rem;">
+    <button class="btn" onclick="goToScreen('physical')">← Back to Physical Activity</button>
+  </div>
+
+  <div class="card">
+    <h2>Moderate vs Vigorous 💨</h2>
+    <p style="margin:.25rem 0 .5rem;">Use the slider to check your intensity. If you can chat while moving → <strong>Moderate</strong>. Too out of breath to chat → <strong>Vigorous</strong>.</p>
+
+    <div class="mv-wrap">
+      <div class="mv-meter" role="group" aria-label="Intensity level controls">
+        <div class="mv-header">
+          <div class="mv-face" id="mvFace" aria-hidden="true">😊</div>
+          <div>
+            <div id="mvLevel" style="font-weight:800;">Moderate</div>
+            <div id="mvHint" style="font-size:.95rem; color:#374151;">Heart beats faster; you can talk.</div>
+          </div>
+          <span class="mv-badge" id="mvBadge">Level 2/3</span>
+        </div>
+
+        <input id="mvRange" class="mv-range" type="range" min="0" max="100" value="40" aria-label="Intensity slider (0 to 100)"/>
+
+        <div class="mv-scale" aria-hidden="true">
+          <span>Easy</span><span>Moderate</span><span>Vigorous</span>
+        </div>
+      </div>
+
+      <div class="mv-examples" aria-live="polite">
+        <div class="mv-card" id="mvModerate">
+          <h4>Moderate 😊</h4>
+          <ul>
+            <li>🚶‍♀️ Brisk walking</li>
+            <li>🚲 Easy bike ride</li>
+            <li>🧹 Active chores (rake, shovel, carry)</li>
+          </ul>
+        </div>
+        <div class="mv-card" id="mvVigorous">
+          <h4>Vigorous 💥</h4>
+          <ul>
+            <li>🏃‍♀️ Running or sprints</li>
+            <li>🤽 Soccer, swimming, basketball</li>
+            <li>🕺 Fast dance practice</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mv-desc" id="mvDesc">
+        Try this: do 30 seconds at <strong>Moderate</strong>, then 30 seconds at <strong>Vigorous</strong>—repeat 3×. 🔁
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PA: Safety First! (fun, interactive) -->
+<section class="screen nutrition-screen" id="pa-strength-cardio" aria-label="Physical Activity — Safety First!">
+  <div class="button-container" style="margin-bottom:.75rem;">
+    <button class="btn" onclick="goToScreen('physical')">← Back to Physical Activity</button>
+  </div>
+
+  <div class="card">
+    <h2 style="display:flex; align-items:center; gap:.5rem;">
+      Safety First! 
+      <span id="paSafetyProgress" aria-live="polite" style="margin-left:auto; font-size:.95rem; background:#eef7ff; border:1px solid #90caf9; padding:4px 8px; border-radius:999px;">0/4 ready</span>
+    </h2>
+    <p style="margin:.25rem 0 .5rem;">Tap each card to check it off before you play. ✅</p>
+
+    <div class="pa-safe-grid">
+      <!-- 1 -->
+      <label class="pa-safe-card">
+        <input type="checkbox" class="pa-safe-check" aria-label="I learned the basics"/>
+        <div class="pa-safe-face">
+          <div class="pa-safe-emoji" aria-hidden="true">🧠</div>
+          <div class="pa-safe-title">Know the basics</div>
+          <p>Learn the rules and how to move safely.</p>
+        </div>
+        <div class="pa-safe-done" aria-hidden="true">✔ Ready!</div>
+      </label>
+
+      <!-- 2 -->
+      <label class="pa-safe-card">
+        <input type="checkbox" class="pa-safe-check" aria-label="I have the right gear"/>
+        <div class="pa-safe-face">
+          <div class="pa-safe-emoji" aria-hidden="true">🛡️</div>
+          <div class="pa-safe-title">Gear up</div>
+          <p>Wear comfy shoes & the right safety gear.</p>
+        </div>
+        <div class="pa-safe-done" aria-hidden="true">✔ Ready!</div>
+      </label>
+
+      <!-- 3 -->
+      <label class="pa-safe-card">
+        <input type="checkbox" class="pa-safe-check" aria-label="I warmed up and will cool down"/>
+        <div class="pa-safe-face">
+          <div class="pa-safe-emoji" aria-hidden="true">🔥</div>
+          <div class="pa-safe-title">Warm up & cool down</div>
+          <p>Loosen up first; stretch & breathe after.</p>
+        </div>
+        <div class="pa-safe-done" aria-hidden="true">✔ Ready!</div>
+      </label>
+
+      <!-- 4 -->
+      <label class="pa-safe-card">
+        <input type="checkbox" class="pa-safe-check" aria-label="I will drink water"/>
+        <div class="pa-safe-face">
+          <div class="pa-safe-emoji" aria-hidden="true">💧</div>
+          <div class="pa-safe-title">Sip water</div>
+          <p>Drink before, during, and after activity.</p>
+        </div>
+        <div class="pa-safe-done" aria-hidden="true">✔ Ready!</div>
+      </label>
+    </div>
+
+    <div class="pa-safe-hint" aria-hidden="true">All checked — you’re game-ready! 🎉</div>
+
+    <details class="pa-safe-why">
+      <summary><strong>Why these matter</strong></summary>
+      <ul style="margin:.5rem 0 0; padding-left:1.1em; line-height:1.7;">
+        <li>Basics help you move with confidence.</li>
+        <li>Good gear protects your head, joints, and skin.</li>
+        <li>Warm ups prepare muscles; cool downs help you recover.</li>
+        <li>Water keeps you energized and focused.</li>
+      </ul>
+    </details>
+
+    <div class="button-container" style="margin-top: 1rem;">
+      <button class="btn" onclick="goToScreen('physical')">← Back to Physical Activity</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- PA: Tips (fun & interactive) -->
+<section class="screen nutrition-screen" id="pa-tips" aria-label="Physical Activity — Tips">
+  <div class="button-container" style="margin-bottom:.75rem;">
+    <button class="btn" onclick="goToScreen('physical')">← Back to Physical Activity</button>
+  </div>
+
+  <div class="card">
+    <h2 style="display:flex; align-items:center; gap:.5rem;">
+      Tips to Stay Active 💡
+      <span id="tipsProgress" class="pill" aria-live="polite" style="margin-left:auto;">0/8 done</span>
+    </h2>
+
+    <div class="tips-actions">
+      <button class="btn-mini" id="tipsShuffle" type="button">🔀 Shuffle</button>
+      <button class="btn-mini" id="tipsSurprise" type="button">🎲 Surprise me</button>
+      <button class="btn-mini" id="tipsReset" type="button">♻️ Reset</button>
+    </div>
+
+    <div class="tips-grid" id="tipsGrid">
+      <div class="tip-chip" tabindex="0" role="button" aria-pressed="false">
+        <span class="emoji">🚶‍♀️</span><span class="text">Walk, run, or bike instead of a ride</span><span class="done">✔</span>
+      </div>
+      <div class="tip-chip" tabindex="0" role="button" aria-pressed="false">
+        <span class="emoji">🐶</span><span class="text">Plan walks with friends or pets</span><span class="done">✔</span>
+      </div>
+      <div class="tip-chip" tabindex="0" role="button" aria-pressed="false">
+        <span class="emoji">🎵</span><span class="text">Dance to your favourite song</span><span class="done">✔</span>
+      </div>
+      <div class="tip-chip" tabindex="0" role="button" aria-pressed="false">
+        <span class="emoji">🧹</span><span class="text">Help at home: rake, shovel, carry groceries</span><span class="done">✔</span>
+      </div>
+      <div class="tip-chip" tabindex="0" role="button" aria-pressed="false">
+        <span class="emoji">🏀</span><span class="text">Play a quick game: hoops, tag, or catch</span><span class="done">✔</span>
+      </div>
+    
+      <div class="tip-chip" tabindex="0" role="button" aria-pressed="false">
+        <span class="emoji">⏱️</span><span class="text">Do a 1-minute move break: jumps or marches</span><span class="done">✔</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PA: Safety & Myths (fixed, responsive, no quiz) -->
+<section class="screen nutrition-screen" id="pa-safety-myths" aria-label="Physical Activity — Safety and Myths">
+  <div class="button-container" style="margin-bottom:.75rem;">
+    <button class="btn" onclick="goToScreen('physical')">← Back to Physical Activity</button>
+  </div>
+
+  <div class="card">
+    <h2>Common Exercise Myths 🤔</h2>
+    <p style="margin-top:.25rem">Tap a card to reveal the truth.</p>
+
+    <!-- Myths grid -->
+    <div class="pa-myths-grid" role="list">
+      <details class="pa-myth" role="listitem">
+        <summary>
+          <span class="pa-myth-tag">Myth</span>
+          Exercise has to be hard to help.
+          <span class="pa-caret" aria-hidden="true">▾</span>
+        </summary>
+        <div class="pa-truth">
+          <strong>Truth:</strong> Any movement counts. Start small and build up. Exercise should feel <em>good</em>—not painful. It’s okay to stop or try something new if it’s too difficult. Enjoyable movement builds a habit that lasts.
+        </div>
+      </details>
+
+      <details class="pa-myth" role="listitem">
+        <summary>
+          <span class="pa-myth-tag">Myth</span>
+          You should avoid rest.
+          <span class="pa-caret" aria-hidden="true">▾</span>
+        </summary>
+        <div class="pa-truth">
+          <strong>Truth:</strong> Rest helps your body and mind recharge—especially after lots of movement. Recovery supports muscle repair and keeps you feeling your best. A chill day is part of staying healthy, too!
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ========================  PASTE THIS SECTION  ======================== -->
+<!-- About the Team (Elementary) -->
+<section class="screen about-screen" id="about-team" aria-label="About the Team">
+  <div class="button-container" style="margin-bottom:.75rem;">
+    <button class="btn" onclick="goToScreen('welcome')">← Back to Welcome</button>
+
+  </div>
+
+  <!-- Hero -->
+  <div class="team-hero">
+    <h2>About the Team</h2>
+    <p class="hero-sub">This project started as part of a community-engaged learning course that the core members of our team, Subah, Helena, and Sweta, are taking as part of their master of Health Information Science degree at the University of Western Ontario in collaboration with the Ontario Centre for Talent Development. The primary objective is to create a tailored, educational webpage to enhance primary and secondary students’ understanding of essential health topics and promote healthy living habits. Ideally, we hope to expand by developing an app to make the platform more accessible and appealing to our target audience. As our team grows and our project further develops, we plan to incorporate more interactive components into our prototype to create a more engaging and impactful product. Currently, we have developped modules for healthy eating and exercise, but we are wishing to expand our content and create additional modules for topics such as growing bodies, sexual health, and mental well-being. This initiative is ongoing, with our team continuously reviewing and refining content and delivery methods to develop the best possible prototype for primary and secondary students!</p>
+
+  
+  </div>
+
+  <div class="card">
+    <!-- People -->
+    <div class="team-list" role="list">
+      <!-- Subah -->
+      <article class="team-card" role="listitem">
+        <div class="avatar" aria-hidden="true">🗂️</div>
+        <div>
+          <div class="card-title">Subah Vohra</div>
+          <div class="card-role">Project Manager/Coordinator - Subah Vohra</div>
+        </div>
+        <p class="card-body">
+          Subah is responsible for overseeing project timelines, milestones, and final deliverables. She serves as the main point of contact between our team and external stakeholders, coordinating communications and scheduling meetings to support effective collaboration and track progress.
+        </p>
+      </article>
+
+      <!-- Helena -->
+      <article class="team-card" role="listitem">
+        <div class="avatar" aria-hidden="true">📚</div>
+        <div>
+          <div class="card-title">Helena Bosic</div>
+          <div class="card-role">Research &amp; Content Lead - Helena Bosic</div>
+        </div>
+        <p class="card-body">
+          Helena is responsible for researching and curating content on selected health topics for the final deliverable, ensuring that all information is accurate, age-appropriate, and easy to understand. She also leads outreach efforts and supports user feedback and testing sessions.
+        </p>
+      </article>
+
+      <!-- Sweta -->
+      <article class="team-card" role="listitem">
+        <div class="avatar" aria-hidden="true">💻</div>
+        <div>
+          <div class="card-title">Sweta Pahirathan</div>
+          <div class="card-role">Design &amp; Tech Lead - Sweta Pahirathan</div>
+        </div>
+        <p class="card-body">
+          Sweta is responsible for coding the entire website prototype, including the creation of Byte the Fox, a hardcoded chatbot that makes health information engaging for youth. She developed gamification features and interactive elements for each module, while guiding the platform’s visual design and content integration to ensure it was intuitive and appealing. She also managed quality assurance and usability testing, refining the user experience with the goal of expanding the prototype into a full app.
+        </p>
+      </article>
+    </div>
+
+  
+
+    
+
+    <div class="button-container" style="margin-top: 1rem;">
+      <button class="btn" onclick="goToScreen('welcome')">← Back to Welcome</button>
+
+    </div>
+  </div>
+</section>
+
 
   <!-- Chatbot -->
   <aside id="chatbot-container" aria-live="polite">
@@ -376,6 +1488,656 @@
         </div>
       `);
     }
+    // --- Safety First checklist init ---
+function initSafetyChecklist(){
+  const sec = document.getElementById('pa-strength-cardio');
+  if(!sec) return;
+  const checks = sec.querySelectorAll('.pa-safe-check');
+  const counter = sec.querySelector('#paSafetyProgress');
+
+  function update(){
+    const done = [...checks].filter(c => c.checked).length;
+    counter.textContent = `${done}/${checks.length} ready`;
+    sec.classList.toggle('all-done', done === checks.length);
+  }
+  checks.forEach(c => c.addEventListener('change', update));
+  update();
+}
+window.addEventListener('load', initSafetyChecklist, { once:true });
+// --- Tips section interactivity ---
+function initTipsSection(){
+  const sec = document.getElementById('pa-tips');
+  if(!sec) return;
+
+  const grid = sec.querySelector('#tipsGrid');
+  const chips = () => Array.from(sec.querySelectorAll('.tip-chip'));
+  const progress = sec.querySelector('#tipsProgress');
+
+  function updateProgress(){
+    const done = chips().filter(c => c.classList.contains('completed')).length;
+    progress.textContent = `${done}/${chips().length} done`;
+  }
+
+  function toggleChip(el){
+    el.classList.toggle('active');
+    el.classList.toggle('completed');
+    el.setAttribute('aria-pressed', el.classList.contains('completed') ? 'true' : 'false');
+    updateProgress();
+  }
+
+  // click & keyboard
+  grid.addEventListener('click', e => {
+    const chip = e.target.closest('.tip-chip');
+    if(chip) toggleChip(chip);
+  });
+  grid.addEventListener('keydown', e => {
+    const chip = e.target.closest('.tip-chip');
+    if(!chip) return;
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      toggleChip(chip);
+    }
+  });
+
+  // Shuffle
+  sec.querySelector('#tipsShuffle').addEventListener('click', () => {
+    const arr = chips();
+    for(let i=arr.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]] = [arr[j],arr[i]];
+    }
+    arr.forEach(ch => grid.appendChild(ch)); // reflow order
+  });
+
+  // Surprise me
+  sec.querySelector('#tipsSurprise').addEventListener('click', () => {
+    const arr = chips();
+    const pick = arr[Math.floor(Math.random()*arr.length)];
+    arr.forEach(c => c.classList.remove('surprise'));
+    pick.classList.add('surprise');
+    // ensure visible on small screens
+    pick.scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+
+  // Reset
+  sec.querySelector('#tipsReset').addEventListener('click', () => {
+    chips().forEach(c => {
+      c.classList.remove('completed','active','surprise');
+      c.setAttribute('aria-pressed','false');
+    });
+    updateProgress();
+  });
+
+  updateProgress();
+}
+window.addEventListener('load', initTipsSection, { once:true });
+// --- Daily Target bull's-eye ---
+function initDailyTarget(){
+  const sec = document.getElementById('pa-daily-target');
+  if(!sec) return;
+
+  const bull = sec.querySelector('#bullseye');
+  const minEl = sec.querySelector('#targetMinutes');
+  const status = sec.querySelector('#targetStatus');
+  const btnPlus = sec.querySelector('#plus5');
+  const btnMinus = sec.querySelector('#minus5');
+  const btnReset = sec.querySelector('#resetTarget');
+
+  let minutes = 0; // 0–120 (we’ll cap)
+
+  function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+  function pct(){ return Math.min(100, (minutes/60)*100); }
+
+  function render(){
+    minEl.textContent = minutes;
+    status.textContent = `${minutes}/60 min`;
+    bull.style.setProperty('--pct', pct().toFixed(2));
+    sec.classList.toggle('goal', minutes >= 60);
+  }
+
+  function add(n){
+    minutes = clamp(minutes + n, 0, 120);
+    render();
+  }
+
+  // click/tap adds 5
+  bull.addEventListener('click', () => add(5));
+  // keyboard
+  bull.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault(); add(5);
+    } else if(e.key === 'ArrowRight' || e.key === 'ArrowUp'){
+      add(5);
+    } else if(e.key === 'ArrowLeft' || e.key === 'ArrowDown'){
+      add(-5);
+    }
+  });
+
+  btnPlus.addEventListener('click', () => add(5));
+  btnMinus.addEventListener('click', () => add(-5));
+  btnReset.addEventListener('click', () => { minutes = 0; render(); });
+
+  render();
+}
+window.addEventListener('load', initDailyTarget, { once:true });
+
+function initIntensityGuide(){
+  const sec = document.getElementById('pa-intensity-guide');
+  if(!sec) return;
+
+  const range = sec.querySelector('#mvRange');
+  const level = sec.querySelector('#mvLevel');
+  const hint  = sec.querySelector('#mvHint');
+  const face  = sec.querySelector('#mvFace');
+  const badge = sec.querySelector('#mvBadge');
+  const desc  = sec.querySelector('#mvDesc');
+
+  function update(){
+    const v = +range.value;  // 0–100
+    let name, emoji, speak, lvl;
+
+    if(v < 33){
+      name = 'Easy ➜ building up';
+      emoji = '🙂';
+      speak = 'Warm-up pace; you can sing.';
+      lvl = 'Level 1/3';
+    } else if(v < 70){
+      name = 'Moderate';
+      emoji = '😊';
+      speak = 'Heart beats faster; you can talk.';
+      lvl = 'Level 2/3';
+    } else {
+      name = 'Vigorous';
+      emoji = '🔥';
+      speak = 'Breathing hard; tough to chat.';
+      lvl = 'Level 3/3';
+    }
+
+    level.textContent = name;
+    hint.textContent  = speak;
+    face.textContent  = emoji;
+    badge.textContent = lvl;
+
+    if(name.startsWith('Vigorous')){
+      desc.innerHTML = 'Try this: 20s fast + 40s easy (x5). 🚀';
+    } else if(name.startsWith('Moderate')){
+      desc.innerHTML = 'Try this: 10–15 min steady pace. 🌟';
+    } else {
+      desc.innerHTML = 'Great warm-up: arm circles, marching, light walk. 🧑‍✈️';
+    }
+  }
+
+  range.addEventListener('input', update);
+  update();
+}
+window.addEventListener('load', initIntensityGuide, { once:true });
+
+    function initEatingTips(){
+  const sec = document.getElementById('which-healthier');
+  if(!sec) return;
+
+  const progress = sec.querySelector('#eatTipsProgress');
+
+  /* ========== A) Quick wins ========== */
+  const winsGrid = sec.querySelector('#eatWinsGrid');
+  const winsChips = () => Array.from(sec.querySelectorAll('#eatWinsGrid .eat-chip'));
+
+  function updateWinsProgress(){
+    const done = winsChips().filter(c => c.classList.contains('completed')).length;
+    const colors = sec.querySelectorAll('.color-dot[aria-pressed="true"]').length;
+    // cap total at 5 so it reads “x/5 today”
+    const total = Math.min(done + Math.min(colors,5), 5);
+    progress.textContent = `${total}/5 today`;
+  }
+
+  function toggleChip(el){
+    el.classList.toggle('active');
+    el.classList.toggle('completed');
+    el.setAttribute('aria-pressed', el.classList.contains('completed') ? 'true' : 'false');
+    updateWinsProgress();
+  }
+
+  if(winsGrid){
+    winsGrid.addEventListener('click', e => {
+      const chip = e.target.closest('.eat-chip');
+      if(chip) toggleChip(chip);
+    });
+    winsGrid.addEventListener('keydown', e => {
+      const chip = e.target.closest('.eat-chip');
+      if(!chip) return;
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault(); toggleChip(chip);
+      }
+    });
+  }
+
+  const btnShuffle = sec.querySelector('#eatWinsShuffle');
+  const btnReset   = sec.querySelector('#eatWinsReset');
+
+  if(btnShuffle){
+    btnShuffle.addEventListener('click', () => {
+      const arr = winsChips();
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
+      }
+      arr.forEach(ch => winsGrid.appendChild(ch));
+    });
+  }
+
+  if(btnReset){
+    btnReset.addEventListener('click', () => {
+      winsChips().forEach(c => {
+        c.classList.remove('completed','active');
+        c.setAttribute('aria-pressed','false');
+      });
+      updateWinsProgress();
+    });
+  }
+
+  /* ========== B) Smart swaps ========== */
+  const swapHint = sec.querySelector('#swapHint');
+  sec.querySelectorAll('.swap-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const a = btn.getAttribute('data-a');
+      const b = btn.getAttribute('data-b');
+      const showingA = btn.textContent.trim() === a.trim();
+      btn.textContent = showingA ? b : a;
+      btn.classList.toggle('swapped', showingA);
+      if(swapHint){
+        swapHint.textContent = showingA ? 'Nice! You chose a nourishing swap. ✅' : 'Tap a card to see the swap!';
+      }
+    });
+  });
+
+  /* ========== C) Snack spinner ========== */
+  const snacks = [
+    'Apple slices + peanut butter 🍎🥜',
+    'Yogurt + berries 🥣🍓',
+    'Hummus + carrots 🥕',
+    'Cheese + whole-grain crackers 🧀🍘',
+    'Trail mix (nuts + raisins) 🥜🍇',
+    'Banana + milk 🍌🥛',
+    'Popcorn + sliced fruit 🍿🍐',
+    'Cottage cheese + pineapple 🍍'
+  ];
+  const result  = sec.querySelector('#snackResult');
+  const spin    = sec.querySelector('#snackSpin');
+  const another = sec.querySelector('#snackAnother');
+
+  function drawSnack(){
+    if(!result) return;
+    const pick = snacks[Math.floor(Math.random()*snacks.length)];
+    result.textContent = pick;
+    result.parentElement.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+  if(spin)    spin.addEventListener('click', drawSnack);
+  if(another) another.addEventListener('click', drawSnack);
+
+  /* ========== D) Rainbow tracker ========== */
+  const note = sec.querySelector('#rainbowNote');
+  function updateRainbowNote(){
+    const count = sec.querySelectorAll('.color-dot[aria-pressed="true"]').length;
+    if(note) note.textContent = `${count}/5 colours`;
+    updateWinsProgress();
+  }
+  sec.querySelectorAll('.color-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      const pressed = dot.getAttribute('aria-pressed') === 'true';
+      dot.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+      updateRainbowNote();
+    });
+    dot.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault(); dot.click();
+      }
+    });
+  });
+
+  updateRainbowNote(); // also calls updateWinsProgress()
+}
+
+// make sure it actually runs
+window.addEventListener('load', initEatingTips, { once:true });
+function initRecipesSection(){
+  const sec = document.getElementById('recipe-ideas');
+  if(!sec) return;
+
+  /* ================== Fruit Party ================== */
+  const fruitLayer = sec.querySelector('#fruitLayer');
+  const btnParty   = sec.querySelector('#fruitPartyToggle');
+  const btnClear   = sec.querySelector('#fruitClear');
+
+  const fruits = [
+    // colorful, transparent PNGs
+    'https://cdn-icons-png.flaticon.com/512/135/135695.png', // apple
+
+    'https://cdn-icons-png.flaticon.com/512/2909/2909808.png', // strawberry
+    
+    'https://cdn-icons-png.flaticon.com/512/590/590685.png',   // grapes
+    'https://cdn-icons-png.flaticon.com/512/415/415733.png',   // orange
+    'https://cdn-icons-png.flaticon.com/512/765/765560.png',   // pineapple
+    'https://cdn-icons-png.flaticon.com/512/415/415760.png',   // watermelon
+   
+  ];
+
+  function rand(min, max){ return Math.random() * (max - min) + min; }
+
+  function spawnFruit(count=16){
+    const rect = sec.getBoundingClientRect();
+    for(let i=0;i<count;i++){
+      const img = document.createElement('img');
+      img.className = 'float-fruit';
+      img.src = fruits[Math.floor(Math.random()*fruits.length)];
+      img.alt = 'Fruit';
+      // randomize size/speed/offset
+      const size = Math.round(rand(42, 96));
+      const x = Math.round(rand(0, 86));      // %
+      const y = Math.round(rand(0, 70));      // %
+      const dx = Math.round(rand(8, 22)) + '%';
+      const durX = rand(14, 26).toFixed(2) + 's';
+      const durY = rand(5, 9).toFixed(2) + 's';
+      const bob = Math.round(rand(-22, -12)) + 'px';
+      const rot = Math.round(rand(4, 12)) + 'deg';
+      img.style.setProperty('--size', size+'px');
+      img.style.setProperty('--x', x+'%');
+      img.style.top = y+'%';
+      img.style.setProperty('--dx', dx);
+      img.style.setProperty('--durX', durX);
+      img.style.setProperty('--durY', durY);
+      img.style.setProperty('--bob', bob);
+      img.style.setProperty('--rot', rot);
+      img.loading = 'lazy';
+      fruitLayer.appendChild(img);
+    }
+  }
+
+  function clearFruit(){ fruitLayer.innerHTML = ''; }
+
+  let partyOn = false;
+  function toggleParty(){
+    partyOn = !partyOn;
+    if(partyOn){
+      spawnFruit(22);
+      btnParty.textContent = '🍉 More Fruit!';
+    } else {
+      clearFruit();
+      btnParty.textContent = '🍉 Fruit Party';
+    }
+  }
+  btnParty?.addEventListener('click', () => {
+    if(!partyOn){ toggleParty(); } else { spawnFruit(10); } // while on, button adds more
+  });
+  btnClear?.addEventListener('click', () => { partyOn=false; clearFruit(); btnParty.textContent='🍉 Fruit Party'; });
+
+  /* ================== Recipe Spinner ================== */
+  const spinBtn   = sec.querySelector('#recipeSpinBtn');
+  const anotherBtn= sec.querySelector('#recipeAnotherBtn');
+  const spinOut   = sec.querySelector('#recipeSpinResult');
+
+  const recipes = [
+    '🍲 **Veggie rainbow bowl** — quinoa + beans + peppers + broccoli + lemon yogurt drizzle',
+    '🥪 **Power sandwich** — whole-grain bread + hummus + tomato + spinach + cheese',
+    '🍝 **Pasta & veg** — whole-wheat pasta + peas + carrots + chicken + olive oil',
+    '🥣 **Yogurt parfait** — yogurt + berries + oats + chopped nuts',
+    '🌮 **Quick tacos** — beans or chicken + lettuce + tomato + salsa on small tortillas',
+    '🍳 **Egg & toast** — scrambled egg + whole-grain toast + fruit',
+    '🥗 **Crunchy salad** — greens + cucumber + chickpeas + seeds + vinaigrette',
+    '🍚 **Stir-fry** — brown rice + tofu/chicken + mixed veggies + soy-ginger',
+    '🥔 **Loaded sweet potato** — baked sweet potato + black beans + corn + yogurt'
+  ];
+
+  function spinRecipe(){
+    const pick = recipes[Math.floor(Math.random()*recipes.length)];
+    if(spinOut){
+      spinOut.innerHTML = pick;
+      spinOut.parentElement.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+  }
+  spinBtn?.addEventListener('click', spinRecipe);
+  anotherBtn?.addEventListener('click', spinRecipe);
+
+  /* ================== Build-a-Bowl ================== */
+  const bowl = { base:null, protein:null, veg:new Set() };
+  const bowlOut = sec.querySelector('#bowlResult');
+  const hint = sec.querySelector('#recipeHint');
+
+  function toggleBtn(btn, group){
+    btn.classList.toggle('active');
+    // single-select groups
+    if(group==='base' || group==='protein'){
+      const selector = group==='base' ? '.bowl-base' : '.bowl-protein';
+      sec.querySelectorAll(selector).forEach(b => { if(b!==btn) b.classList.remove('active'); });
+      bowl[group] = btn.classList.contains('active') ? btn.dataset.v : null;
+    } else {
+      // multi-select veg
+      const v = btn.dataset.v;
+      if(btn.classList.contains('active')) bowl.veg.add(v); else bowl.veg.delete(v);
+    }
+    hint && (hint.textContent = 'Building a bowl…');
+  }
+
+  sec.querySelectorAll('.bowl-base').forEach(b => b.addEventListener('click', () => toggleBtn(b,'base')));
+  sec.querySelectorAll('.bowl-protein').forEach(b => b.addEventListener('click', () => toggleBtn(b,'protein')));
+  sec.querySelectorAll('.bowl-veg').forEach(b => b.addEventListener('click', () => toggleBtn(b,'veg')));
+
+  sec.querySelector('#bowlSuggest')?.addEventListener('click', () => {
+    if(!bowl.base || !bowl.protein || bowl.veg.size===0){
+      bowlOut.textContent = 'Pick a base, a protein, and at least one veg/fruit to get a suggestion.';
+      return;
+    }
+    const vegList = Array.from(bowl.veg).slice(0,3).join(', ');
+    const sauce = ['lemon yogurt','tahini','olive oil + herbs','mild salsa','peanut-lime'][Math.floor(Math.random()*5)];
+    bowlOut.innerHTML = `🍽️ Try this: <strong>${bowl.base}</strong> + <strong>${bowl.protein}</strong> + <strong>${vegList}</strong> → drizzle with <em>${sauce}</em>. Yum!`;
+  });
+
+  sec.querySelector('#bowlReset')?.addEventListener('click', () => {
+    bowl.base = null; bowl.protein = null; bowl.veg.clear();
+    sec.querySelectorAll('.bowl-base,.bowl-protein,.bowl-veg').forEach(b => b.classList.remove('active'));
+    bowlOut.textContent = 'Pick a base + protein + veg, then tap “Suggest my bowl”.';
+    hint && (hint.textContent = 'Try the spinner ↓');
+  });
+}
+window.addEventListener('load', initRecipesSection, { once:true });
+
+/* ---------------- Falling Food Catch game ---------------- */
+function initCatchGame(){
+  const wrap = document.querySelector('#recipe-ideas .catch-wrap');
+  if(!wrap) return;
+  const canvas = document.getElementById('catchCanvas');
+  const ctx = canvas.getContext('2d');
+  const overlay = document.getElementById('catchOverlay');
+  const startBtn = document.getElementById('catchStartBtn');
+  const scoreEl = document.getElementById('catchScore');
+  const timeEl  = document.getElementById('catchTime');
+
+  // Responsive canvas (keeps aspect)
+  function fitCanvas(){
+    const ratio = canvas.width / canvas.height;
+    const w = wrap.clientWidth;
+    const h = Math.round(w/ratio);
+    canvas.style.height = h+'px';
+  }
+  window.addEventListener('resize', fitCanvas);
+  fitCanvas();
+
+  // Game state
+  const GOOD = ['🍎','🥦','🥕','🍌','🍓','🍇','🍞','🥛','🥚','🐟'];
+  const BAD  = ['🧃','🍩'];
+
+  let running=false, ended=false, tStart=0, duration=30_000;
+  let score=0;
+  const foods=[];
+  const particles=[];
+
+  const world = { w: canvas.width, h: canvas.height, gravity: 0.12 };
+
+  const basket = {
+    w: 140, h: 26, x: world.w/2-70, y: world.h-60, speed: 8,
+    draw(){
+      const r = 12;
+      ctx.fillStyle = '#9b6b43';
+      roundRect(ctx, this.x, this.y, this.w, this.h, r); ctx.fill();
+      ctx.strokeStyle = '#7a5231'; ctx.lineWidth = 2;
+      for(let i=1;i<=4;i++){
+        const xx = this.x + (this.w/5)*i;
+        ctx.beginPath(); ctx.moveTo(xx, this.y+4); ctx.lineTo(xx, this.y+this.h-4); ctx.stroke();
+      }
+    }
+  };
+
+  function spawnFood(){
+    const isGood = Math.random() < 0.78;
+    const emoji = isGood ? GOOD[Math.floor(Math.random()*GOOD.length)] : BAD[Math.floor(Math.random()*BAD.length)];
+    const size = 38 + Math.random()*10;
+    foods.push({
+      emoji, good:isGood,
+      x: 40 + Math.random()*(world.w-80),
+      y: -40,
+      vy: 1 + Math.random()*1.2,
+      rot: Math.random()*Math.PI*2,
+      vr: (Math.random()-.5)*0.02,
+      size
+    });
+  }
+
+  function burst(x,y,good=true){
+    for(let i=0;i<10;i++){
+      particles.push({
+        x, y,
+        vx:(Math.random()-.5)*3, vy:-Math.random()*2-1,
+        life: 40,
+        col: good ? `hsl(${Math.random()*60+100} 70% 50%)` : `hsl(0 70% 55%)`
+      });
+    }
+  }
+
+  function roundRect(ctx,x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  const keys = new Set();
+  window.addEventListener('keydown', e=>{
+    if(e.key==='ArrowLeft'||e.key==='ArrowRight') keys.add(e.key);
+    if(ended && (e.key===' '||e.key==='Enter')) start();
+  });
+  window.addEventListener('keyup', e=>{ keys.delete(e.key); });
+
+  let dragging=false, dragOffset=0;
+  canvas.addEventListener('pointerdown', e=>{
+    dragging=true;
+    const rect = canvas.getBoundingClientRect();
+    const px = (e.clientX-rect.left) * (world.w/rect.width);
+    dragOffset = px - basket.x - basket.w/2;
+  });
+  window.addEventListener('pointerup', ()=> dragging=false);
+  window.addEventListener('pointermove', e=>{
+    if(!dragging || !running) return;
+    const rect = canvas.getBoundingClientRect();
+    const px = (e.clientX-rect.left) * (world.w/rect.width);
+    basket.x = Math.max(0, Math.min(world.w-basket.w, px - basket.w/2 - dragOffset));
+  });
+
+  let last=0, spawnTicker=0;
+  function loop(ts){
+    if(!running) return;
+    if(!last) last = ts;
+    const dt = (ts-last); last = ts;
+
+    const remain = Math.max(0, duration - (performance.now()-tStart));
+    timeEl.textContent = `Time: ${Math.ceil(remain/1000)}s`;
+    if(remain<=0){ end(); return; }
+
+    ctx.clearRect(0,0,world.w,world.h);
+    drawBackground();
+
+    if(keys.has('ArrowLeft')) basket.x -= basket.speed;
+    if(keys.has('ArrowRight')) basket.x += basket.speed;
+    basket.x = Math.max(0, Math.min(world.w-basket.w, basket.x));
+
+    spawnTicker += dt;
+    if(spawnTicker > 520){ spawnTicker = 0; spawnFood(); }
+
+    ctx.textBaseline='middle'; ctx.textAlign='center';
+    foods.forEach(f=>{
+      f.vy += world.gravity * 0.04;
+      f.y  += f.vy;
+      f.rot+= f.vr;
+
+      ctx.save();
+      ctx.translate(f.x, f.y);
+      ctx.rotate(f.rot);
+      ctx.font = `${f.size}px system-ui, 'Apple Color Emoji','Segoe UI Emoji'`;
+      ctx.fillText(f.emoji, 0, 0);
+      ctx.restore();
+    });
+
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.05; p.life--;
+      ctx.fillStyle = p.col; ctx.globalAlpha = Math.max(0,p.life/40);
+      ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+
+    for(let i=foods.length-1;i>=0;i--){
+      const f=foods[i];
+      const inX = f.x >= basket.x && f.x <= basket.x + basket.w;
+      const inY = f.y >= basket.y-10 && f.y <= basket.y + basket.h;
+      if(inX && inY){
+        foods.splice(i,1);
+        if(f.good){ score+=5; burst(f.x,f.y,true); }
+        else { score=Math.max(0,score-7); burst(f.x,f.y,false); }
+        scoreEl.textContent = `Score: ${score}`;
+      } else if(f.y > world.h + 40){
+        foods.splice(i,1);
+      }
+    }
+    for(let i=particles.length-1;i>=0;i--) if(particles[i].life<=0) particles.splice(i,1);
+
+    basket.draw();
+    requestAnimationFrame(loop);
+  }
+
+  function drawBackground(){
+    const grd = ctx.createRadialGradient(world.w-90, 80, 10, world.w-90, 80, 160);
+    grd.addColorStop(0, 'rgba(255,223,120,.9)');
+    grd.addColorStop(1, 'rgba(255,223,120,0)');
+    ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(world.w-90,80,160,0,Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = '#eaf7e9';
+    ctx.fillRect(0, world.h-36, world.w, 36);
+  }
+
+  function start(){
+    running = true; ended=false; foods.length=0; particles.length=0; score=0;
+    scoreEl.textContent = 'Score: 0';
+    tStart = performance.now(); last=0; spawnTicker=0;
+    overlay.style.display = 'none';
+    requestAnimationFrame(loop);
+  }
+
+  function end(){
+    running=false; ended=true;
+    overlay.style.display='grid';
+    overlay.querySelector('.catch-card').innerHTML = `
+      <h3 style="margin:.2rem 0 .4rem;">🎉 Great job!</h3>
+      <p style="margin:0 0 .5rem;">Final score: <strong>${score}</strong></p>
+      <button class="catch-btn" type="button" aria-label="Play again" onclick="this.closest('#catchOverlay').style.display='none'; setTimeout(()=>document.getElementById('catchStartBtn').click(),50)">🔁 Play again</button>
+    `;
+  }
+
+  startBtn.addEventListener('click', start);
+}
+window.addEventListener('load', initCatchGame, { once:true });
+
+
+
   </script>
 </body>
 </html>
