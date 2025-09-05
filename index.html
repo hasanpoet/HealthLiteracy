@@ -238,6 +238,14 @@
 #pa-intensity-guide .mv-card ul{ margin:0; padding-left:1.1em; line-height:1.6; }
 
 /* --- Healthy Recipes: kid-friendly visuals --- */
+    /* Make Clear and Fruit Party buttons bigger */
+button#clear,
+button#fruit-party {
+  font-size: 1.4rem;   /* larger text */
+  padding: 16px 28px;  /* bigger clickable area */
+  border-radius: 14px; /* match your --radius variable if you want */
+}
+
 #recipe-ideas .recipes-hero{
   display:grid; gap:10px; align-items:center;
   grid-template-columns: 64px 1fr auto; 
@@ -699,6 +707,16 @@
       .screen { transition: none; }
       .float-food { animation: none; }
     }
+    
+    /* Bigger Fruit Party + Clear buttons */
+#recipe-ideas .fruit-controls .fruit-btn,
+#fruitPartyToggle,
+#fruitClear {
+  font-size: 1.25rem;
+  padding: 16px 24px;     /* larger hit area */
+  border-radius: 18px;
+}
+
   </style>
 </head>
 <body>
@@ -942,25 +960,7 @@
     </div>
   </div>
 
-  <!-- Falling Food Catch game (kept; just inherits new styling) -->
-  <div class="catch-wrap" role="region" aria-label="Falling Food Catch game" style="margin-top:.75rem;">
-    <div class="catch-hud">
-      <div id="catchScore" class="catch-pill" aria-live="polite">Score: 0</div>
-      <div id="catchTime" class="catch-pill" aria-live="polite">Time: 30s</div>
-    </div>
-    <div class="catch-legend" aria-hidden="true">✅ 🥦🍎🍞🥛  &nbsp;|&nbsp;  ❌ 🧃🍩</div>
 
-    <canvas id="catchCanvas" width="900" height="520"></canvas>
-
-    <div id="catchOverlay" class="catch-overlay">
-      <div class="catch-card">
-        <h3 style="margin:.2rem 0 .4rem;">🍎 Falling Food Catch</h3>
-        <p style="margin:0 0 .5rem;">Move the basket to catch <strong>healthy foods</strong>. Avoid the junk!</p>
-        <p style="margin:0 0 .5rem;"><strong>Controls:</strong> ⬅️ ➡️ or drag/tap.</p>
-        <button id="catchStartBtn" class="catch-btn" type="button" aria-label="Start game">▶️ Play</button>
-      </div>
-    </div>
-  </div>
 
   <!-- soft, decorative fruit (kept) -->
   <img class="float-food" loading="lazy" alt="Carrot" src="https://cdn-icons-png.flaticon.com/512/135/135620.png" style="top: 18px; left: 6%" />
